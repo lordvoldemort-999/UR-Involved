@@ -76,8 +76,8 @@ This project is built using the **Model-View-Controller (MVC)** architecture.
 
 | Name | Student ID | Email | Role |
 |-----|-----------|-------|------|
-| Robert-Dominic Calinescu | 200492232 | rcr492@uregina.ca | Developer / Project Manager |
-| Peyton Bowen | 200504005 | pbb092@uregina.ca | Developer |
-| Harleen Kaur | 200530299 | hkh549@uregina.ca | Developer |
-| Abraham Omoregie | 200507536 | aoo988@uregina.ca | Developer |
-| Luka Dundjerovic | 200494589 | ldr198@uregina.ca | Developer |
+| Robert-Dominic Calinescu | 200492232 | rcr492@uregina.ca | Project Lead / Database |
+| Peyton Bowen | 200504005 | pbb092@uregina.ca | Frontend / UX / UI |
+| Harleen Kaur | 200530299 | hkh549@uregina.ca | Frontend / UX / UI |
+| Abraham Omoregie | 200507536 | aoo988@uregina.ca | Backend Developer |
+| Luka Dundjerovic | 200494589 | ldr198@uregina.ca | Backend Developer |
