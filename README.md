@@ -21,7 +21,7 @@ We are following an **Agile/Scrum** development process with defined milestones:
   *Due: January 30, 2026*
 
 - **Milestone 2:** Project Planning, Requirements, and System Design  
-  *Due: March 4, 2026*
+  *Due: March 6, 2026*
 
 - **Milestone 3:** Progress Scrum Checkpoint  
   *Due: March 18, 2026*
