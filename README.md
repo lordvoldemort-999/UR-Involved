@@ -13,6 +13,15 @@ Developed as a group project for **ENSE 281**, this application follows the **Mo
 
 ---
 
+## Project Management
+
+Our development workflow is managed using a GitHub Kanban Project Board.
+
+The board tracks sprint tasks, MVP features, and project progress using an Agile workflow (To-Do, In Progress, Done).
+
+GitHub Project Board:
+[[Link to Project Board]](https://github.com/users/RobertCalinescu/projects/2/views/1)
+
 ## Project Milestones
 
 We are following an **Agile/Scrum** development process with defined milestones:
