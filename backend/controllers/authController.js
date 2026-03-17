@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const passport = require("../config/passport");
 const User = require("../../database/models/User");
 
 exports.showRegisterPage = (req, res) => {
@@ -36,10 +37,48 @@ exports.registerUser = async (req, res) => {
 
     await newUser.save();
 
-    //temporary response for testing, later res.redirect("/login")   
-    res.send("Registration successful. Next step: redirect to login.");
+    res.redirect("/login");
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).send("Server error during registration.");
   }
+};
+
+exports.showLoginPage = (req, res) => {
+  res.render("login");
+};
+
+exports.loginUser = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/me",
+    failureRedirect: "/login"
+  })(req, res, next);
+};
+
+exports.logoutUser = (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+
+    req.session.destroy((sessionError) => {
+      if (sessionError) {
+        return next(sessionError);
+      }
+
+      res.clearCookie("connect.sid");
+      res.redirect("/login");
+    });
+  });
+};
+
+exports.showCurrentUser = (req, res) => {
+  res.send(`
+    <h1>Logged In User</h1>
+    <p><strong>Email:</strong> ${req.user.email}</p>
+    <p><strong>Role:</strong> ${req.user.role}</p>
+    <form action="/logout" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+  `);
 };
