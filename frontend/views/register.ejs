@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register | UR Clubs</title>
+  <title>Register | UR Involved</title>
   <style>
     * {
       box-sizing: border-box;
@@ -66,8 +66,7 @@
       color: #333;
     }
 
-    input,
-    select {
+    input {
       width: 100%;
       padding: 12px 14px;
       border: 1px solid #cfcfcf;
@@ -76,8 +75,7 @@
       outline: none;
     }
 
-    input:focus,
-    select:focus {
+    input:focus {
       border-color: #00643c;
     }
 
@@ -113,10 +111,16 @@
     .login-link a:hover {
       text-decoration: underline;
     }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <div class="navbar">UR Clubs</div>
+  <div class="navbar">UR Involved</div>
 
   <div class="page">
     <div class="card">
@@ -129,9 +133,10 @@
           type="email"
           id="email"
           name="email"
-          placeholder="Enter your email"
+          placeholder="Enter your @uregina.ca email"
           required
         >
+        <p class="hint">You must register with a valid @uregina.ca email address.</p>
 
         <label for="password">Password</label>
         <input
@@ -142,12 +147,14 @@
           required
         >
 
-        <label for="role">Role</label>
-        <select id="role" name="role">
-          <option value="student" selected>Student</option>
-          <option value="clubAdmin">Club Admin</option>
-          <option value="systemAdmin">System Admin</option>
-        </select>
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Re-enter your password"
+          required
+        >
 
         <button type="submit">Register</button>
       </form>

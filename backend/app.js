@@ -1,25 +1,15 @@
-/* user-registration 
-
-User model
-Register page
-POST route for registration
-Validation
-Password hashing
-Default role = student
-Duplicate email check
-Success redirect
-
-*/
-
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // EJS setup
 app.set("view engine", "ejs");
@@ -29,6 +19,9 @@ app.set("views", path.join(__dirname, "../frontend/views"));
 app.get("/", (req, res) => {
   res.send("UR Involved backend is running.");
 });
+
+// Auth routes
+app.use("/", authRoutes);
 
 // MongoDB connection
 mongoose
