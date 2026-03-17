@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const session = require("express-session");
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, "../.env") });
 
-const passport = require("passport");
+const passport = require("./config/passport");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();

@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const passport = require("passport");
+const passport = require("../config/passport");
 const User = require("../../database/models/User");
 
 exports.showRegisterPage = (req, res) => {
