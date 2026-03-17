@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | UR Clubs</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f7f7f7, #e9ecef);
+      min-height: 100vh;
+      color: #222;
+    }
+
+    .navbar {
+      background-color: #00643c;
+      color: white;
+      padding: 18px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .page {
+      min-height: calc(100vh - 68px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      padding: 32px 28px;
+    }
+
+    .card h1 {
+      text-align: center;
+      color: #00643c;
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      margin-top: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cfcfcf;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #00643c;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 13px;
+      background-color: #00643c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004f2f;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .register-link a {
+      color: #00643c;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">UR Clubs</div>
+
+  <div class="page">
+    <div class="card">
+      <h1>Login</h1>
+      <p class="subtitle">Sign in to your University of Regina clubs account</p>
+
+      <form action="/login" method="POST">
+        <label for="email">University Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your uregina.ca email"
+          required
+        >
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        >
+
+        <button type="submit">Login</button>
+      </form>
+
+      <div class="register-link">
+        Don’t have an account? <a href="/register">Register here</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
