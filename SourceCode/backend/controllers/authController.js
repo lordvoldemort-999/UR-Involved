@@ -50,7 +50,7 @@ exports.showLoginPage = (req, res) => {
 
 exports.loginUser = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/me",
+    successRedirect: "/",
     failureRedirect: "/login"
   })(req, res, next);
 };
