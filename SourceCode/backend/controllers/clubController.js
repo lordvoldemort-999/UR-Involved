@@ -4,6 +4,8 @@ exports.showHomePage = async(req, res) => {
     try {
         // getting club data
         const clubs = await Club.find({ approved: true }).sort({ name: 1 });
+        console.log("clubs found:", clubs.length);
+        console.log(clubs);
         
         // render homepage
         res.render("home", {clubs});

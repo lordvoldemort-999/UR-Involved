@@ -71,45 +71,23 @@
       <!-- Same implementation as sort. Unsure what filter options available -->
     </div>
     <div class="club-group">
-      <!-- Iterate thru each club in db, should be easily implementable using a for loop -->
-      <div class="club-card">
-        <img
-          src="/images/University_of_Regina_Logo.jpg"
-          alt="Filler club logo"
-        />
-        <p>Club name here</p>
-        <!-- Here should come the social media icons -->
-        <!-- TODO: specify css for clubs social media links icons -->
-      </div>
-      <div class="club-card">
-        <img
-          src="/images/University_of_Regina_Logo.jpg"
-          alt="Filler club logo"
-        />
-        <p>Club name here</p>
-      </div>
-      <div class="club-card">
-        <img
-          src="/images/University_of_Regina_Logo.jpg"
-          alt="Filler club logo"
-        />
-        <p>Club name here</p>
-      </div>
-      <div class="club-card">
-        <img
-          src="/images/University_of_Regina_Logo.jpg"
-          alt="Filler club logo"
-        />
-        <p>Club name here</p>
-      </div>
-      <div class="club-card">
-        <img
-          src="/images/University_of_Regina_Logo.jpg"
-          alt="Filler club logo"
-        />
-        <p>Club name here</p>
-      </div>
-    </div>
+  <% if (clubs && clubs.length > 0) { %>
+    <% clubs.forEach(club => { %>
+      <a href="/clubs/<%= club._id %>" class="club-card-link">
+        <div class="club-card">
+          <img
+            src="/images/University_of_Regina_Logo.jpg"
+            alt="Club logo"
+          />
+          <p><%= club.name %></p>
+          <small><%= club.category %></small>
+        </div>
+      </a>
+    <% }) %>
+  <% } else { %>
+    <p>No clubs are available right now.</p>
+  <% } %>
+</div>
     <div class="call-to-action" id="first">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed

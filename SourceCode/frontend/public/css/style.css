@@ -200,3 +200,41 @@ h2 {
   gap: 173px;
   padding: 3em;
 }
+
+.auth-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.auth-btn {
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  min-width: 90px;
+  height: auto;
+}
+
+.logout-form {
+  margin: 0;
+}
+
+.header-action-btn {
+  height: 48px !important;
+  max-width: 220px;
+  font-size: 0.95rem;
+}
+
+.club-card-link {
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 calc((100% / 3) - 16px);
+}
+
+.club-card small {
+  display: block;
+  color: #00643c;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
