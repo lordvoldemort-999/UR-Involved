@@ -1,0 +1,202 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* TODO: Change color scheme of body*/
+body {
+  font-family: "Poppins";
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.main {
+  grid-column: 3/11;
+}
+
+h1,
+h2 {
+  color: rgba(4, 172, 7, 1);
+}
+
+.header {
+  height: 250px;
+  grid-column: 1 / 13;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+}
+
+.header-main {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)),
+    url("../images/pexels-rdne-7092350.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.header-main h2 {
+  color: rgba(4, 172, 7, 1);
+  margin-left: 1rem;
+}
+
+.header-icon-container {
+  grid-column: 3/6;
+  height: 112px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-icon-container > img {
+  width: 130px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-nav-main {
+  grid-column: 8/11;
+  display: grid;
+  grid-template-rows: auto;
+  gap: 50px;
+}
+
+.header-nav-main button {
+  background: rgba(224, 210, 14, 1);
+  border-radius: 0;
+  height: 56px;
+  width: 100%;
+  max-width: 363px;
+  margin: auto;
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.intro img {
+  width: 367px;
+  height: 234px;
+  object-fit: cover;
+}
+
+.intro-text {
+  flex: 1;
+}
+
+.search-bar {
+  background-color: #e0e0e0;
+  border-radius: 50px;
+  padding: 0.75rem 1.25rem;
+  width: 100%;
+  max-width: 1003px;
+  margin: 10px 0 10px 0;
+}
+
+.search-bar:focus-within {
+  background-color: #e0e0e0;
+}
+
+.search-bar i {
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+  color: #000;
+}
+
+.search-bar input {
+  background: transparent;
+  font-size: 1.25rem;
+}
+
+.sort-card {
+  grid-column: 3/5;
+  width: 100%;
+  max-width: 233px;
+  height: 417px;
+
+  background: rgba(217, 217, 217, 1);
+
+  border-radius: 30px;
+  padding: 2rem;
+}
+
+.sort-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.club-group {
+  grid-column: 5/11;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.club-card {
+  flex: 0 0 calc((100% / 3) - 16px);
+  width: 234px;
+  height: 229px;
+  background: rgba(217, 217, 217, 1);
+  border-radius: 30px;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.club-card img {
+  border-radius: 30px;
+  width: 102.05px;
+  height: 99px;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.club-card p {
+  font-weight: 600;
+}
+
+.call-to-action {
+  margin-top: 2rem;
+  background: rgba(217, 217, 217, 1);
+  padding: 3rem;
+  border-radius: 30px;
+  max-height: 290px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.call-to-action button {
+  height: 38px;
+  max-width: 235px;
+  margin: auto;
+}
+
+#first {
+  grid-column: 3/7;
+}
+
+#second {
+  grid-column: 7/11;
+}
+
+.footer {
+  grid-column: 1/13;
+  height: 250px;
+  background-color: rgba(64, 163, 66, 1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 173px;
+  padding: 3em;
+}
