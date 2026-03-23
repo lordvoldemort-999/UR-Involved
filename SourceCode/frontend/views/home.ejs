@@ -73,16 +73,16 @@
     <div class="club-group">
   <% if (clubs && clubs.length > 0) { %>
     <% clubs.forEach(club => { %>
-      <a href="/clubs/<%= club._id %>" class="club-card-link">
-        <div class="club-card">
-          <img
-            src="/images/University_of_Regina_Logo.jpg"
-            alt="Club logo"
-          />
-          <p><%= club.name %></p>
-          <small><%= club.category %></small>
+      <div class="club-card">
+          <a href="/clubs/<%= club._id %>" class="club-card-link">
+            <img
+              src="/images/University_of_Regina_Logo.jpg"
+              alt="Club logo"
+            />
+            <p><%= club.name %></p>
+            <small><%= club.category %></small>
+          </a>
         </div>
-      </a>
     <% }) %>
   <% } else { %>
     <p>No clubs are available right now.</p>
