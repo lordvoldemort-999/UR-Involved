@@ -24,9 +24,23 @@
       <!-- Should be implementable thru ejs -->
       <div class="header-nav-main">
         <!-- TODO: Add arrow indicator -->
-        <button class="btn btn-warning">Create club</button>
-        <button class="btn btn-warning">Events</button>
+        <!-- <button class="btn btn-warning">Create club</button> -->
+        <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
+        <a href="/events" class="btn btn-warning" role="button">Events</a>
+        <!-- <button class="btn btn-warning">Events</button> -->
       </div>
       <!-- ToDo: Add nav links (homepage does not have nav links) -->
       <!-- TODO: Add profile for user dashboard -->
+      <div class="dropdown dashboard-btn-container">
+        <button class=" btn dropdown-toggle bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(224, 210, 14, 1)" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+          </svg>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="/dashboard" class="dropdown-item">Dashboard</a></li>
+          <hr class="dropdown-divider">
+          <li><a href="#" class="dropdown-item">Logout</a></li>
+        </ul>
+      </div>
     </header>
