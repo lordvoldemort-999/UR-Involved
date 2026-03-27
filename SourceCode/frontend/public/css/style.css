@@ -254,3 +254,8 @@ h2 {
   margin-top: auto;
   text-align: center;
 }
+
+.breadcrumb-container {
+  grid-column: 3/11;
+  padding: 3px;
+}

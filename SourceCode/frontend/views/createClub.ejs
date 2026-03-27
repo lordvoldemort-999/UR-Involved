@@ -1,15 +1,11 @@
-<%- include("layouts/header.ejs") -%>
+<%- include("layouts/secondary-header.ejs") -%>
 
 <nav
-  style="
-    --bs-breadcrumb-divider: url(
-      &#34;data:image/svg + xml,%3Csvgxmlns=&quot;http://www.w3.org/2000/svg&quot;width=&quot;8&quot;height=&quot;8&quot;%3E%3Cpathd=&quot;M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z&quot;fill=&quot;%236c757d&quot;/%3E%3C/svg%3E&#34;
-    );
-  "
+  class="breadcrumb-container"
   aria-label="breadcrumb"
 >
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Club</li>
   </ol>
 </nav>
