@@ -60,13 +60,14 @@ h2 {
   gap: 50px;
 }
 
-.header-nav-main button {
+.header-nav-main a {
   background: rgba(224, 210, 14, 1);
   border-radius: 0;
   height: 56px;
   width: 100%;
   max-width: 363px;
   margin: auto;
+  padding: 1rem;
 }
 
 .intro {
@@ -245,4 +246,11 @@ h2 {
   background: rgba(242, 227, 227, 1);
   border-radius: 30px;
   padding: 3rem;
+}
+
+.dashboard-btn-container {
+  grid-column: 12/13;
+  margin-bottom: 0;
+  margin-top: auto;
+  text-align: center;
 }
