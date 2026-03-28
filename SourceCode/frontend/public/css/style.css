@@ -353,3 +353,7 @@ h2 {
   font-weight: 600;
   margin-top: 0.5rem;
 }
+
+.dashboard-event-card {
+  width: 233px;
+}
