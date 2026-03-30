@@ -358,3 +358,21 @@ h2 {
   width: 233px;
   height: 400px;
 }
+
+.nav-container {
+  grid-column: 6/10;
+  margin-top: auto;
+  margin-bottom: 2px;
+}
+
+.nav-pills .nav-link {
+    color: #ffffff; 
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-pills .nav-link:hover,
+.nav-pills .nav-link.active, 
+.nav-pills .show > .nav-link {
+    background-color: #e0d20e !important;
+    color: #000000 !important;
+}
