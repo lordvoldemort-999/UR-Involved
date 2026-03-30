@@ -24,7 +24,27 @@
         <!-- TODO: Add arrow indicator -->
         <a href="/home" class="btn btn-warning" role="button">Back to Homepage</a>
       </div>
-      <!-- ToDo: Add nav links (homepage does not have nav links) -->
+      <!-- Need to dynamically display the nav links only when in club-details and if the current page within
+            club details is events, news, or request-to-join.
+            INSTRUCTIONS: Pass club-details and current-page to secondary-header.ejs when calling.
+                current-page should dynamically update to either events, news or request-to-join depending on where user is () in javascript,
+                club-details is either passed or not 
+                Both should be passed when calling dashboard.ejs -->
+      <% if (club-details) { %>
+        <nav class="nav-container">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a href="/events" class="nav-link <%= current-page === 'events' ? 'active' : '' %>">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/news" class="nav-link <%= current-page === 'news' ? 'active' : '' %>">News</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/request-to-join" class="nav-link <%= current-page === 'request-to-join' ? 'active' : '' %>">Request to join</a>
+                </li>
+            </ul>
+        </nav>
+      <% } %>
       <div class="dropdown dashboard-btn-container">
         <button class=" btn dropdown-toggle bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(224, 210, 14, 1)" class="bi bi-person-fill" viewBox="0 0 16 16">
