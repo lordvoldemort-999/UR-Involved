@@ -12,41 +12,57 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <header class="header header-main">
       <div class="header-icon-container">
-        <img src="images/URegina_Coat_of_Arms.svg" alt="UR Icon" />
+        <img src="/images/URegina_Coat_of_Arms.svg" alt="UR Icon" />
         <h2>UR Involved</h2>
       </div>
+
       <div class="header-nav-main">
-        <!-- TODO: Add arrow indicator -->
-        <a href="/home" class="btn btn-warning" role="button">Back to Homepage</a>
+        <a href="/" class="btn btn-warning" role="button">Back to Homepage</a>
       </div>
-      <!-- Need to dynamically display the nav links only when in club-details and if the current page within
-            club details is events, news, or request-to-join.
-            INSTRUCTIONS: Pass club-details and current-page to secondary-header.ejs when calling.
-                current-page should dynamically update to either events, news or request-to-join depending on where user is () in javascript,
-                club-details is either passed or not 
-                Both should be passed when calling dashboard.ejs -->
-      <% if (club-details) { %>
+
+      <% if (typeof clubDetails !== "undefined" && clubDetails) { %>
         <nav class="nav-container">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a href="/events" class="nav-link <%= current-page === 'events' ? 'active' : '' %>">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/news" class="nav-link <%= current-page === 'news' ? 'active' : '' %>">News</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/request-to-join" class="nav-link <%= current-page === 'request-to-join' ? 'active' : '' %>">Request to join</a>
-                </li>
-            </ul>
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a
+                href="/clubs/<%= club._id %>"
+                class="nav-link <%= currentPage === 'overview' ? 'active' : '' %>"
+              >
+                Overview
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/clubs/<%= club._id %>#events"
+                class="nav-link <%= currentPage === 'events' ? 'active' : '' %>"
+              >
+                Events
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/clubs/<%= club._id %>#join"
+                class="nav-link <%= currentPage === 'request-to-join' ? 'active' : '' %>"
+              >
+                Request to join
+              </a>
+            </li>
+          </ul>
         </nav>
       <% } %>
+
       <div class="dropdown dashboard-btn-container">
-        <button class=" btn dropdown-toggle bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button
+          class="btn dropdown-toggle bg-transparent border-0"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(224, 210, 14, 1)" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
           </svg>
