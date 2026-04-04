@@ -44,6 +44,7 @@ mongoose
     console.log("MongoDB connected successfully.");
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
+    
     });
   })
   .catch((error) => {
