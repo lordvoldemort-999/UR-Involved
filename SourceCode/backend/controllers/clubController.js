@@ -76,6 +76,10 @@ exports.showDashboard = async (req, res) => {
   }
 };
 
+exports.showEditProfile = async (req, res) => {
+  res.render("editProfile");
+}
+
 exports.showClubCreation = async (req, res) => {
   res.render("createClub");
 }
@@ -320,3 +324,4 @@ exports.rejectJoinRequest = async (req, res) => {
     res.status(500).send("Error rejecting join request.");
   }
 };
+

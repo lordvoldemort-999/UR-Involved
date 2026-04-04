@@ -14,6 +14,7 @@ router.get("/clubs/:id", clubController.showClubDetails);
 router.get("/dashboard", ensureAuthenticated, clubController.showDashboard);
 
 // student actions
+router.get("/edit-profile", ensureAuthenticated, ensureStudent, clubController.showEditProfile);
 router.get("/create-club", ensureAuthenticated, ensureStudent, clubController.showClubCreation);
 router.post("/clubs/:id/join-request", ensureAuthenticated, ensureStudent, clubController.submitJoinRequest);
 router.post("/clubs/create-request", ensureAuthenticated, ensureStudent, clubController.submitClubCreationRequest);
