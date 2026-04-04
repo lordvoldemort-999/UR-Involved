@@ -33,9 +33,13 @@
           </svg>
         </button>
         <ul class="dropdown-menu">
-          <li><a href="/dashboard" class="dropdown-item">Dashboard</a></li>
+          <li><form action="/dashboard" method="get" class="dropdown-item" style="height: 32px; text-align: center; margin: 0px;">
+            <button class="bg-transparent border-0 "type="submit" style="width: 158px; height: auto; text-align: left">Dashboard</button>
+          </form></li>
           <hr class="dropdown-divider">
-          <li><a href="/logout" class="dropdown-item">Logout</a></li>
+          <li><form action="/logout" method="post" class="dropdown-item" style="height: 32px; text-align: center; margin: 0px;">
+            <button class="bg-transparent border-0 "type="submit" style="width: 158px; height: auto; text-align: left">Logout</button>
+          </form></li>
         </ul>
       </div>
     </header>
