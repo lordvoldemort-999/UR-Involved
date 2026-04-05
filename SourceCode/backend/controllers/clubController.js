@@ -5,7 +5,14 @@ const ClubCreationRequest = require("../../database/models/ClubCreationRequest")
 exports.showHomePage = async (req, res) => {
   try {
     const clubs = await Club.find({ approved: true }).sort({ name: 1 });
-    res.render("home", { clubs });
+    let tempUsername = "";
+    if (await req.user) {
+      tempUsername = req.user.email;
+    }
+    const username = tempUsername;
+    res.render("home", { 
+      clubs,
+      username});
   } catch (error) {
     console.error("failure rendering home page", error);
     res.status(500).send("Error loading homepage.");
@@ -77,7 +84,7 @@ exports.showDashboard = async (req, res) => {
 };
 
 exports.showEditProfile = async (req, res) => {
-  res.render("editProfile");
+  res.render("editProfile", {user: req.user});
 }
 
 exports.showClubCreation = async (req, res) => {
