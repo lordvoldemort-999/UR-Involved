@@ -2,6 +2,7 @@ const Club = require("../../database/models/Club");
 const JoinRequest = require("../../database/models/JoinRequest");
 const ClubCreationRequest = require("../../database/models/ClubCreationRequest");
 
+// ================= HOME =================
 exports.showHomePage = async (req, res) => {
   try {
     const clubs = await Club.find({ approved: true }).sort({ name: 1 });
@@ -12,6 +13,7 @@ exports.showHomePage = async (req, res) => {
   }
 };
 
+// ================= CLUB DETAILS =================
 exports.showClubDetails = async (req, res) => {
   try {
     const club = await Club.findOne({
@@ -42,6 +44,7 @@ exports.showClubDetails = async (req, res) => {
   }
 };
 
+// ================= DASHBOARD =================
 exports.showDashboard = async (req, res) => {
   try {
     const userJoinRequests = await JoinRequest.find({
@@ -76,6 +79,7 @@ exports.showDashboard = async (req, res) => {
   }
 };
 
+// ================= JOIN REQUEST =================
 exports.submitJoinRequest = async (req, res) => {
   try {
     const club = await Club.findOne({
@@ -120,6 +124,7 @@ exports.submitJoinRequest = async (req, res) => {
   }
 };
 
+// ================= CLUB CREATION =================
 exports.submitClubCreationRequest = async (req, res) => {
   try {
     const { proposedName, description, category, contactEmail } = req.body;
@@ -141,6 +146,7 @@ exports.submitClubCreationRequest = async (req, res) => {
   }
 };
 
+// ================= ADMIN: VIEW CLUB REQUESTS =================
 exports.showClubCreationRequests = async (req, res) => {
   try {
     const requests = await ClubCreationRequest.find()
@@ -154,6 +160,7 @@ exports.showClubCreationRequests = async (req, res) => {
   }
 };
 
+// ================= ADMIN: APPROVE CLUB =================
 exports.approveClubCreationRequest = async (req, res) => {
   try {
     const request = await ClubCreationRequest.findById(req.params.id);
@@ -189,6 +196,7 @@ exports.approveClubCreationRequest = async (req, res) => {
   }
 };
 
+// ================= ADMIN: REJECT CLUB =================
 exports.rejectClubCreationRequest = async (req, res) => {
   try {
     const request = await ClubCreationRequest.findById(req.params.id);
@@ -207,6 +215,7 @@ exports.rejectClubCreationRequest = async (req, res) => {
   }
 };
 
+// ================= ADMIN: VIEW JOIN REQUESTS =================
 exports.showClubJoinRequests = async (req, res) => {
   try {
     const club = await Club.findById(req.params.clubId);
@@ -242,6 +251,7 @@ exports.showClubJoinRequests = async (req, res) => {
   }
 };
 
+// ================= ADMIN: APPROVE JOIN =================
 exports.approveJoinRequest = async (req, res) => {
   try {
     const joinRequest = await JoinRequest.findById(req.params.id).populate("club");
@@ -284,6 +294,7 @@ exports.approveJoinRequest = async (req, res) => {
   }
 };
 
+// ================= ADMIN: REJECT JOIN =================
 exports.rejectJoinRequest = async (req, res) => {
   try {
     const joinRequest = await JoinRequest.findById(req.params.id).populate("club");
