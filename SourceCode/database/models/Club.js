@@ -23,9 +23,10 @@ const clubSchema = new mongoose.Schema(
       trim: true,
       lowercase: true
     },
-    approved: {
-      type: Boolean,
-      default: false
+    logo: {
+      type: String,
+      trim: true,
+      default: "/images/University_of_Regina_Logo.png"
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId, 
