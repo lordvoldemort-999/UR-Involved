@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const clubController = require("../controllers/clubController");
-const { ensureAuthenticated } = require("../middleware/authMiddleware");
-
 
 const {
   ensureAuthenticated,
@@ -11,54 +9,75 @@ const {
   ensureSystemAdmin
 } = require("../middleware/authMiddleware");
 
+// ================= HOME =================
 router.get("/", clubController.showHomePage);
 
+// ================= CLUB DETAILS =================
 router.get("/clubs/:id", clubController.showClubDetails);
 
-<<<<<<< HEAD
-router.get("/dashboard", ensureAuthenticated, clubController.showDashboard);
-
-// student actions
-router.post("/clubs/:id/join-request", ensureAuthenticated, ensureStudent, clubController.submitJoinRequest);
-router.post("/clubs/create-request", ensureAuthenticated, ensureStudent, clubController.submitClubCreationRequest);
-
-// system admin actions
-router.get("/admin/club-requests", ensureAuthenticated, ensureSystemAdmin, clubController.showClubCreationRequests);
-router.post("/admin/club-requests/:id/approve", ensureAuthenticated, ensureSystemAdmin, clubController.approveClubCreationRequest);
-router.post("/admin/club-requests/:id/reject", ensureAuthenticated, ensureSystemAdmin, clubController.rejectClubCreationRequest);
-
-// club owner/admin actions
-router.get("/admin/clubs/:clubId/join-requests", ensureAuthenticated, clubController.showClubJoinRequests);
-router.post("/admin/join-requests/:id/approve", ensureAuthenticated, clubController.approveJoinRequest);
-router.post("/admin/join-requests/:id/reject", ensureAuthenticated, clubController.rejectJoinRequest);
-=======
-
+// ================= JOIN PAGE =================
 router.get("/clubs/:id/join", ensureAuthenticated, (req, res) => {
   const clubId = req.params.id;
-
-  res.render("joinRequest", { 
-    clubId 
-  });
+  res.render("joinRequest", { clubId });
 });
 
+// ================= DASHBOARD =================
+router.get("/dashboard", ensureAuthenticated, clubController.showDashboard);
 
-router.post("/clubs/:id/join", ensureAuthenticated, async (req, res) => {
-  try {
-    const clubId = req.params.id;
-    const message = req.body.message; // 👈 gets textarea input
+// ================= STUDENT ACTIONS =================
+router.post(
+  "/clubs/:id/join-request",
+  ensureAuthenticated,
+  ensureStudent,
+  clubController.submitJoinRequest
+);
 
-    console.log("Join request submitted:");
-    console.log("Club ID:", clubId);
-    console.log("Message:", message);
+router.post(
+  "/clubs/create-request",
+  ensureAuthenticated,
+  ensureStudent,
+  clubController.submitClubCreationRequest
+);
 
+// ================= SYSTEM ADMIN =================
+router.get(
+  "/admin/club-requests",
+  ensureAuthenticated,
+  ensureSystemAdmin,
+  clubController.showClubCreationRequests
+);
 
-    res.redirect(`/clubs/${clubId}?joined=true`);
+router.post(
+  "/admin/club-requests/:id/approve",
+  ensureAuthenticated,
+  ensureSystemAdmin,
+  clubController.approveClubCreationRequest
+);
 
-  } catch (error) {
-    console.error("Join request error:", error);
-    res.redirect(`/clubs/${req.params.id}`);
-  }
-});
->>>>>>> c426963 (Finished club details page with join and contact features)
+router.post(
+  "/admin/club-requests/:id/reject",
+  ensureAuthenticated,
+  ensureSystemAdmin,
+  clubController.rejectClubCreationRequest
+);
+
+// ================= CLUB OWNER / ADMIN =================
+router.get(
+  "/admin/clubs/:clubId/join-requests",
+  ensureAuthenticated,
+  clubController.showClubJoinRequests
+);
+
+router.post(
+  "/admin/join-requests/:id/approve",
+  ensureAuthenticated,
+  clubController.approveJoinRequest
+);
+
+router.post(
+  "/admin/join-requests/:id/reject",
+  ensureAuthenticated,
+  clubController.rejectJoinRequest
+);
 
 module.exports = router;

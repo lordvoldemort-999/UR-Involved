@@ -1,0 +1,37 @@
+<%- include("layouts/secondary-header") -%>
+
+<div class="join-page">
+
+  <div class="join-container">
+
+    <h2 class="join-title">Request to Join</h2>
+
+    <p class="join-subtext">
+      Tell us why you want to join this club.
+    </p>
+
+    <form action="/clubs/<%= clubId %>/join" method="POST" class="join-form">
+
+      <label class="join-label">Message (optional)</label>
+
+      <textarea 
+        name="message" 
+        class="join-textarea" 
+        placeholder="Write your reason here...">
+      </textarea>
+
+      <div class="join-buttons">
+        <a href="/clubs/<%= clubId %>" class="cancel-btn">Cancel</a>
+
+        <button type="submit" class="join-submit-btn">
+          Submit Request
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<%- include("layouts/footer") -%>
