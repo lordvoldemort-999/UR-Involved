@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authController = require("../controllers/authController");
-const { ensureAuthenticated } = require("../middleware/authMiddleware");
+const { ensureAuthenticated } = require("../middleware/authMiddleware"); //used to protect routes so only logged-in users can access them.
 
 router.get("/register", authController.showRegisterPage);
 router.post("/register", authController.registerUser);

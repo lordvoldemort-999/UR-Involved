@@ -20,12 +20,3 @@ exports.ensureSystemAdmin = (req, res, next) => {
   return res.status(403).send("Only system admins can do this.");
 };
 
-exports.ensureClubAdminOrSystemAdmin = (req, res, next) => {
-  if (
-    req.isAuthenticated() &&
-    (req.user.role === "clubAdmin" || req.user.role === "systemAdmin")
-  ) {
-    return next();
-  }
-  return res.status(403).send("You do not have permission to do this.");
-};

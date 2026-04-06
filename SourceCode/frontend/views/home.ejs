@@ -74,10 +74,7 @@
     <% clubs.forEach(club => { %>
       <div class="club-card">
           <a href="/clubs/<%= club._id %>" class="club-card-link">
-            <img
-              src="/images/University_of_Regina_Logo.jpg"
-              alt="Club logo"
-            />
+            <img src="<%= club.logo %>" alt="Club logo" />
             <p><%= club.name %></p>
             <small><%= club.category %></small>
           </a>

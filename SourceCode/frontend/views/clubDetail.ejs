@@ -1,186 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Club Details | UR Clubs</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<%- include("layouts/secondary-header") -%>
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
-      color: #222;
-    }
+<div class="club-detail-page">
 
-    .navbar {
-      background-color: #00643c;
-      color: white;
-      padding: 18px 40px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .card {
-      background-color: white;
-      border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-
-    .hero {
-      background: linear-gradient(to right, #00643c, #0b8b58);
-      color: white;
-      padding: 40px 30px;
-    }
-
-    .hero h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 17px;
-      opacity: 0.95;
-    }
-
-    .content {
-      padding: 30px;
-    }
-
-    .section {
-      margin-bottom: 24px;
-    }
-
-    .section h2 {
-      color: #00643c;
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .section p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #444;
-    }
-
-    .info-box {
-      background-color: #f8faf9;
-      border: 1px solid #d8e6de;
-      border-radius: 12px;
-      padding: 18px;
-      margin-top: 12px;
-    }
-
-    .info-row {
-      margin-bottom: 12px;
-      font-size: 16px;
-    }
-
-    .info-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .label {
-      font-weight: bold;
-      color: #222;
-    }
-
-    .actions {
-      margin-top: 30px;
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 20px;
+  <!-- SUCCESS MESSAGE -->
+<% if (joined && joined.toString() === "true") { %>
+    <div style="
+      background: #e6f9f0;
+      color: #0c6b58;
+      padding: 12px;
+      margin: 20px;
       border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 15px;
-    }
+      font-weight: 500;
+      text-align: center;
+    ">
+      Request sent successfully!
+    </div>
+  <% } %>
 
-    .btn-primary {
-      background-color: #00643c;
-      color: white;
-    }
+  <!-- ALREADY REQUESTED MESSAGE -->
+  <% if (existingJoinRequest) { %>
+    <div style="
+      background: #fff3cd;
+      color: #856404;
+      padding: 12px;
+      margin: 20px;
+      border-radius: 10px;
+      text-align: center;
+    ">
+      You already have a pending join request.
+    </div>
+  <% } %>
 
-    .btn-primary:hover {
-      background-color: #004f2f;
-    }
+  <% if (!club) { %>
+    <p style="padding:40px;">Club not found</p>
+  <% } else { %>
 
-    .btn-secondary {
-      background-color: white;
-      color: #00643c;
-      border: 2px solid #00643c;
-    }
+  <div class="main">
+    <div class="club-content">
 
-    .btn-secondary:hover {
-      background-color: #eef7f2;
-    }
-  </style>
-</head>
-<body>
-  <div class="navbar">UR Clubs</div>
+      <!-- LEFT SIDE -->
+      <div class="club-card">
 
-  <div class="container">
-    <div class="card">
-      <div class="hero">
-        <h1>Computer Science Students' Society</h1>
-        <p>Connecting students through events, opportunities, and community.</p>
+        <div class="club-logo"></div>
+
+        <h3 class="club-name"><%= club.name %></h3>
+
+        <p class="club-description">
+          <%= club.description || "No description available." %>
+        </p>
+
+        <p class="created-date">
+          Created:
+          <%= club.createdAt 
+            ? new Date(club.createdAt).toLocaleDateString() 
+            : "N/A" %>
+        </p>
+
+        <!-- BUTTONS -->
+        <div class="club-actions">
+
+          <% if (existingJoinRequest) { %>
+            <button class="join-btn" disabled style="background: grey;">
+              Request Pending
+            </button>
+
+          <% } else if (joined === "true") { %>
+            <button class="join-btn" disabled style="background: grey;">
+              Request Sent
+            </button>
+
+          <% } else { %>
+            <a href="/clubs/<%= club._id %>/join" class="join-btn">
+              Request to Join
+            </a>
+          <% } %>
+
+          <% if (club.contactEmail) { %>
+            <a href="mailto:<%= club.contactEmail %>" class="contact-btn">
+              Contact
+            </a>
+          <% } %>
+
+        </div>
+
+        <!-- EMAIL -->
+        <% if (club.contactEmail) { %>
+          <p class="contact-email">
+            <%= club.contactEmail %>
+          </p>
+        <% } %>
+
       </div>
 
-      <div class="content">
-        <div class="section">
-          <h2>About This Club</h2>
-          <p>
-            The Computer Science Students' Society brings together students who are interested
-            in technology, coding, teamwork, and campus involvement. This club helps students
-            connect with peers, learn new skills, and take part in academic and social events.
-          </p>
+      <!-- RIGHT SIDE -->
+      <div class="events-area">
+
+        <!-- UPCOMING EVENTS -->
+        <h2 class="section-title">Upcoming events</h2>
+
+        <div class="event-grid">
+          <% if (upcoming && upcoming.length > 0) { %>
+            <% upcoming.forEach(event => { %>
+              <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-info">
+                  <h4><%= event.title %></h4>
+                  <p><%= event.location || "No location" %></p>
+                  <p><%= new Date(event.date).toLocaleDateString() %></p>
+                  <p><%= event.price ? "$" + event.price : "Free" %></p>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="no-events">No upcoming events</p>
+          <% } %>
         </div>
 
-        <div class="section">
-          <h2>Club Information</h2>
-          <div class="info-box">
-            <div class="info-row">
-              <span class="label">Category:</span> Academic
-            </div>
-            <div class="info-row">
-              <span class="label">Contact Email:</span> csss@uregina.ca
-            </div>
-            <div class="info-row">
-              <span class="label">Status:</span> Approved Club
-            </div>
-          </div>
+        <!-- PAST EVENTS -->
+        <h2 class="section-title">Past events</h2>
+
+        <div class="event-grid">
+          <% if (past && past.length > 0) { %>
+            <% past.forEach(event => { %>
+              <div class="event-card">
+                <div class="event-image"></div>
+                <div class="event-info">
+                  <h4><%= event.title %></h4>
+                  <p><%= event.location || "No location" %></p>
+                  <p><%= new Date(event.date).toLocaleDateString() %></p>
+                  <p><%= event.price ? "$" + event.price : "Free" %></p>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p class="no-events">No past events</p>
+          <% } %>
         </div>
 
-        <div class="section">
-          <h2>Why Join?</h2>
-          <p>
-            Members can explore leadership opportunities, attend club events, network with other
-            students, and become more involved in campus life at the University of Regina.
-          </p>
-        </div>
-
-        <div class="actions">
-          <a href="#" class="btn btn-primary">Join Club</a>
-          <a href="/home" class="btn btn-secondary">Back to Home</a>
-        </div>
       </div>
+
     </div>
   </div>
-</body>
-</html>
+
+  <% } %>
+
+  <%- include("layouts/footer") -%>
+
+</div>

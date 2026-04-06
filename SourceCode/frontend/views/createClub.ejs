@@ -30,13 +30,14 @@
 </div>
 <div class="create-club-form">
   <h2>Club creation form</h2>
-  <form action="/create-request" method="post">
+  <form action="/clubs/create-request" method="post" enctype="multipart/form-data">
     <label for="club-name" class="form-label">Proposed club name</label>
     <input
       type="text"
       id="club-name"
       class="form-control border-bottom mb-4 p-3"
       placeholder="Write your club name here."
+      required
     />
 
     <label for="club-description" class="form-label">Description</label>
@@ -46,6 +47,7 @@
       class="form-control p-3 mb-4"
       rows="20"
       placeholder="Write the description of your club's activities here. Make sure it matches the records we already have"
+      required
     ></textarea>
 
     <label for="club-category" class="form-label">Category</label>
@@ -55,6 +57,7 @@
       list="category-options"
       placeholder="Write the category(s) your club belongs to here."
       class="form-control p-3 mb-4"
+      required
     />
     <datalist id="category-options">
       <option value="Science"></option>
@@ -66,12 +69,13 @@
       <option value="Business"></option>
     </datalist>
 
-    <label for="club-logo" class="form-label">Logo</label>
+    <label for="logo" class="form-label">Logo</label>
     <input
       type="file"
-      name="club-logo"
-      id="club-logo"
+      name="logo"
+      id="logo"
       class="form-control mb-4"
+      accept=".png,.jpg,.jpeg,.gif,.webp"
     />
 
     <label for="contact-email" class="form-label">Contact Email</label>
@@ -81,6 +85,7 @@
       id="contact-email"
       class="form-control mb-4 p-3"
       placeholder="Write your club's contact email here"
+      required
     />
 
     <!-- TODO: Discuss with team what else to ask for creation form -->

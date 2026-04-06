@@ -1,6 +1,7 @@
 const Club = require("../../database/models/Club");
 const JoinRequest = require("../../database/models/JoinRequest");
 const ClubCreationRequest = require("../../database/models/ClubCreationRequest");
+const mongoose = require("mongoose");
 
 exports.showHomePage = async (req, res) => {
   try {
@@ -12,10 +13,20 @@ exports.showHomePage = async (req, res) => {
   }
 };
 
+exports.showCreateClubPage = (req, res) => {
+  res.render("createClub");
+};
+
 exports.showClubDetails = async (req, res) => {
   try {
+    const clubId = req.params.id;
+    
+    if (!mongoose.Types.ObjectId.isValid(clubId)) {
+      return res.status(400).send("Invalid club ID");
+    }
+
     const club = await Club.findOne({
-      _id: req.params.id,
+      _id: clubId,
       approved: true
     });
 
@@ -23,22 +34,23 @@ exports.showClubDetails = async (req, res) => {
       return res.status(404).send("Club not found.");
     }
 
-    let existingJoinRequest = null;
+    const upcoming = [];
+    const past = [];
 
-    if (req.user && req.user.role === "student") {
-      existingJoinRequest = await JoinRequest.findOne({
-        student: req.user._id,
-        club: club._id
-      });
-    }
+    const joined = req.query.joined;
 
     res.render("clubDetail", {
       club,
-      existingJoinRequest
+      upcoming,
+      past,
+      joined, 
+      existingJoinRequest: req.query.existingJoinRequest === "true",
+      currentPage: "overview"
     });
+
   } catch (error) {
-    console.error("failure rendering club details page", error);
-    res.status(500).send("Error loading club details page.");
+    console.error("Error loading club details:", error);
+    res.status(500).send("Server error");
   }
 };
 
@@ -78,6 +90,10 @@ exports.showDashboard = async (req, res) => {
 
 exports.submitJoinRequest = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).send("Invalid club ID.");
+    }
+    
     const club = await Club.findOne({
       _id: req.params.id,
       approved: true
@@ -102,7 +118,7 @@ exports.submitJoinRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.status(400).send("You already have a pending join request for this club.");
+      return res.redirect(`/clubs/${club._id}?existingJoinRequest=true`);
     }
 
     const joinRequest = new JoinRequest({
@@ -113,7 +129,7 @@ exports.submitJoinRequest = async (req, res) => {
 
     await joinRequest.save();
 
-    res.redirect(`/clubs/${club._id}`);
+    res.redirect(`/clubs/${club._id}?joined=true`);
   } catch (error) {
     console.error("error submitting join request", error);
     res.status(500).send("Error submitting join request.");
@@ -124,12 +140,17 @@ exports.submitClubCreationRequest = async (req, res) => {
   try {
     const { proposedName, description, category, contactEmail } = req.body;
 
+    const logoPath = req.file
+    ? `/images/club-logos/${req.file.filename}`
+    : "/images/University_of_Regina_Logo.jpg";
+
     const request = new ClubCreationRequest({
       requestedBy: req.user._id,
       proposedName,
       description,
       category,
-      contactEmail
+      contactEmail,
+      logo: logoPath
     });
 
     await request.save();
@@ -171,6 +192,7 @@ exports.approveClubCreationRequest = async (req, res) => {
       description: request.description,
       category: request.category,
       contactEmail: request.contactEmail,
+      logo: request.logo || "/images/University_of_Regina_Logo.jpg",
       approved: true,
       createdBy: request.requestedBy,
       admins: [request.requestedBy],

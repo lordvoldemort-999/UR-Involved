@@ -51,7 +51,7 @@
       <% memberClubs.forEach(club => { %>
         <div class="dashboard-club-card">
           <a href="/clubs/<%= club._id %>" class="club-card-link">
-            <img src="/images/University_of_Regina_Logo.jpg" alt="Club logo">
+            <img src="<%= club.logo %>" alt="Club logo" />
             <p><%= club.name %></p>
             <small>Member</small>
           </a>
@@ -68,7 +68,7 @@
       <% userJoinRequests.forEach(request => { %>
         <div class="dashboard-club-card">
           <a href="/clubs/<%= request.club._id %>" class="club-card-link">
-            <img src="/images/University_of_Regina_Logo.jpg" alt="Club logo">
+            <img src="<%= request.club.logo %>" alt="Club logo">
             <p><%= request.club.name %></p>
             <small>Status: <%= request.status %></small>
           </a>
@@ -85,7 +85,7 @@
       <% userClubCreationRequests.forEach(request => { %>
         <div class="dashboard-club-card">
           <a href="#" class="club-card-link">
-            <img src="/images/University_of_Regina_Logo.jpg" alt="Club logo">
+            <img src="<%= request.logo %>" alt="Club logo">
             <p><%= request.proposedName %></p>
             <small>Status: <%= request.status %></small>
           </a>
