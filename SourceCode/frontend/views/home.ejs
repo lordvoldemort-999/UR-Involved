@@ -1,4 +1,7 @@
 <%- include("layouts/header.ejs") -%>
+
+    <form id="searchSortFilterForm" action="/" method="GET" style="display: none;"></form>
+
     <div class="main">
       <div class="intro">
         <div class="intro-text">
@@ -20,10 +23,14 @@
         <h2>Clubs and Student Groups</h2>
         <div class="search-bar d-flex align-items-center">
           <i class="bi bi-search"></i>
+          <!-- Search input -->
           <input
             type="text"
+            name="search"
+            form="searchSortFilterForm"
             class="form-control border-0 shadow-none"
-            placeholder="Type to search..."
+            placeholder="Search Clubs..."
+            value="<% if (typeof currentSearch !== 'undefined') { %><%= currentSearch %><% } %>"
           />
         </div>
       </div>
@@ -31,44 +38,167 @@
     <div class="sort-card">
       <h4>Sort</h4>
       <ul class="list-group">
-        <!-- Not sure how many options for sorting will be available but easily scalable -->
+        <!-- Sort alphabetically -->
         <li>
           <input
             type="radio"
             name="sort"
-            id="sort-by-name"
+            value="alphabetical"
+            id="sort-alphabetically"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
             class="form-check-input me-1"
-            checked
+            <% if (typeof currentSort === 'undefined' || currentSort === 'alphabetical') { %>checked<% } %>
           />
-          <label for="sort-by-name" class="form-check-label">Name</label>
+          <label for="sort-alphabetically" class="form-check-label">Name A-Z</label>
         </li>
+        <!-- Sort reverse alphabetically -->
         <li>
           <input
             type="radio"
             name="sort"
-            id="sort-by-category"
+            value="reverseAlphabetical"
+            id="sort-reverse-alphabetically"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
             class="form-check-input me-1"
+            <% if (typeof currentSort !== 'undefined' && currentSort === 'reverseAlphabetical') { %>checked<% } %>
           />
-          <label for="sort-by-category" class="form-check-label"
-            >Category</label
-          >
+          <label for="sort-reverse-alphabetically" class="form-check-label">Name Z-A</label>
         </li>
+        <!-- Sort by newest -->
         <li>
           <input
             type="radio"
             name="sort"
-            id="sort-by-date"
+            value="newest"
+            id="sort-by-newest"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
             class="form-check-input me-1"
+            <% if (typeof currentSort !== 'undefined' && currentSort === 'newest') { %>checked<% } %>
           />
-          <label for="sort-by-date" class="form-check-label"
-            >Date created</label
-          >
+          <label for="sort-by-newest" class="form-check-label">Newest</label>
+        </li>
+        <!-- Sort by oldest -->
+        <li>
+          <input
+            type="radio"
+            name="sort"
+            value="oldest"
+            id="sort-by-oldest"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentSort !== 'undefined' && currentSort === 'oldest') { %>checked<% } %>
+          />
+          <label for="sort-by-oldest" class="form-check-label">Oldest</label>
         </li>
       </ul>
       <hr />
       <h4>Filter</h4>
-      <!-- Same implementation as sort. Unsure what filter options available -->
+      <ul class="list-group">
+        <!-- Default filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="All"
+            id="filter-all"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter === 'undefined' || currentFilter === 'All') { %>checked<% } %>
+          />
+          <label for="filter-all" class="form-check-label">All</label>
+        </li>
+        <!-- Academic filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Academic"
+            id="filter-academic"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Academic') { %>checked<% } %>
+          />
+          <label for="filter-academic" class="form-check-label">Academic</label>
+        </li>
+        <!-- Arts/Performance filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Arts/Performance"
+            id="filter-arts"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Arts/Performance') { %>checked<% } %>
+          />
+          <label for="filter-arts" class="form-check-label">Arts/Performance</label>
+        </li>
+        <!-- Cultural/Ethnic filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Cultural/Ethnic"
+            id="filter-cultural"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Cultural/Ethnic') { %>checked<% } %>
+          />
+          <label for="filter-cultural" class="form-check-label">Cultural/Ethnic</label>
+        </li>
+        <!-- Community filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Community"
+            id="filter-community"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Community') { %>checked<% } %>
+          />
+          <label for="filter-community" class="form-check-label">Community</label>
+        </li>
+        <!-- Athletics filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Athletics"
+            id="filter-athletics"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Athletics') { %>checked<% } %>
+          />
+          <label for="filter-athletics" class="form-check-label">Athletics</label>
+        </li>
+        <!-- Hobby filter -->
+        <li>
+          <input
+            type="radio"
+            name="filter"
+            value="Hobby"
+            id="filter-hobby"
+            form="searchSortFilterForm"
+            onchange="this.form.submit()"
+            class="form-check-input me-1"
+            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Hobby') { %>checked<% } %>
+          />
+          <label for="filter-hobby" class="form-check-label">Hobby</label>
+        </li>
+      </ul>
     </div>
+    
     <div class="club-group">
   <% if (clubs && clubs.length > 0) { %>
     <% clubs.forEach(club => { %>
