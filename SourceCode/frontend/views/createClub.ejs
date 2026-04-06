@@ -30,34 +30,32 @@
 </div>
 <div class="create-club-form">
   <h2>Club creation form</h2>
-  <form action="/clubs/create-request" method="post" enctype="multipart/form-data">
+  <form action="/clubs/create-request" method="post">
     <label for="club-name" class="form-label">Proposed club name</label>
     <input
       type="text"
+      name="proposedName"
       id="club-name"
       class="form-control border-bottom mb-4 p-3"
       placeholder="Write your club name here."
-      required
     />
 
     <label for="club-description" class="form-label">Description</label>
     <textarea
-      name="club-description"
+      name="description"
       id="club-description"
       class="form-control p-3 mb-4"
       rows="20"
       placeholder="Write the description of your club's activities here. Make sure it matches the records we already have"
-      required
     ></textarea>
 
     <label for="club-category" class="form-label">Category</label>
     <input
-      name="club-category"
+      name="category"
       id="club-category"
       list="category-options"
       placeholder="Write the category(s) your club belongs to here."
       class="form-control p-3 mb-4"
-      required
     />
     <datalist id="category-options">
       <option value="Science"></option>
@@ -81,11 +79,10 @@
     <label for="contact-email" class="form-label">Contact Email</label>
     <input
       type="text"
-      name="contact-email"
+      name="contactEmail"
       id="contact-email"
       class="form-control mb-4 p-3"
       placeholder="Write your club's contact email here"
-      required
     />
 
     <!-- TODO: Discuss with team what else to ask for creation form -->
@@ -94,3 +91,4 @@
 </div>
 
 <%- include("layouts/footer.ejs") -%>
+
