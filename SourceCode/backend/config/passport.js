@@ -1,3 +1,4 @@
+//passport configuration file for user authentication using passport-local strategy
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy; 
 const bcrypt = require("bcrypt"); 

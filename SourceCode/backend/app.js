@@ -16,11 +16,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.set("views", path.join(__dirname, "../frontend/views"));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
+  app.use(session({
+  secret: process.env.SESSION_SECRET || "mysecret123",
   resave: false,
   saveUninitialized: false
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
