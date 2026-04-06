@@ -1,0 +1,11 @@
+Why did we make a poster?
+
+One of our requirements for this project was to create an advertisement, specifically a commercial. This is not meant to be a replacement necessarily but it got us thinking: How should we advertise this service?
+
+Well, the immediate conclusion we came to was simmple: to ask ourselves "Where would we advertise a club?", and the answer was on a poster. While many people may gloss over posters, the people who will look
+on the boards are also the ones that will be most likely to use this service. 
+
+We reach them, rather than making them reach us. 
+
+Also note the poster's QR code is a placeholder and, as such, is crossed out. While the site is on localhost, having a poster that links to it would obviously not work. If we were to further this project, 
+the poster would be fixed with a proper QR code.
