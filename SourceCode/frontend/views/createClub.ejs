@@ -1,11 +1,8 @@
-<%- include("layouts/secondary-header.ejs") -%>
+<%- include("layouts/secondary-header.ejs", { clubDetails: false, currentPage: "create-club" }) -%>
 
-<nav
-  class="breadcrumb-container"
-  aria-label="breadcrumb"
->
+<nav class="breadcrumb-container" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Club</li>
   </ol>
 </nav>
@@ -91,4 +88,3 @@
 </div>
 
 <%- include("layouts/footer.ejs") -%>
-

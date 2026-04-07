@@ -138,6 +138,9 @@ exports.submitJoinRequest = async (req, res) => {
 
 exports.submitClubCreationRequest = async (req, res) => {
   try {
+    console.log("req.file:", req.file);
+    console.log("req.body:", req.body);
+    
     const { proposedName, description, category, contactEmail } = req.body;
     if (!proposedName || !description || !category || !contactEmail) {
       return res.status(400).send("All fields are required.");

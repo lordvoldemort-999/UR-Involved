@@ -12,8 +12,6 @@ router.post("/login", authController.loginUser);
 
 router.post("/logout", authController.logoutUser);
 
-router.get("/dashboard", ensureAuthenticated, authController.showDashboard);
-
 router.get("/me", ensureAuthenticated, authController.showCurrentUser);
 
 module.exports = router;
