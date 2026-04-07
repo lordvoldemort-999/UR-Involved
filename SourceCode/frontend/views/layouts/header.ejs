@@ -22,12 +22,14 @@
       </div>
 
       <div class="header-nav-main">
-        <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
-        <a class="btn btn-warning" role="button">Events (Coming Soon...)</a>
-        <% if (!currentUser) { %>
-          <a href="/login" class="btn btn-warning" role="button"> Login</a>
-        <% } %>
-        <!-- TODO: Add the following code back in when events page is added: href="/events" -->
+        <% if (currentUser) { %>
+              <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
+            <% } else { %>
+              <a href="/login" class="btn btn-warning" role="button"> Login</a>
+            <% } %>
+
+        <!-- TODO: Add the following code back in when events page is added: -->
+        <!-- ADD: <a href="/events" class="btn btn-warning" role="button">Events</a> -->
       </div>
 
       <div class="dropdown dashboard-btn-container">
