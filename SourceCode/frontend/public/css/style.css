@@ -251,7 +251,16 @@ h2 {
   margin-bottom: 0;
   margin-top: auto;
   text-align: center;
+  background-color: #004e00; 
+  width: 100px;
 }
+
+.dropdown-toggle::after {
+  border-top-color: rgba(224, 210, 14, 1);
+  width: 10px;
+  height: 5px;
+}
+
 
 .breadcrumb-container {
   grid-column: 3/11;
