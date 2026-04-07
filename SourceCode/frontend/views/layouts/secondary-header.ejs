@@ -37,37 +37,7 @@
         </a>
       </div>
 
-      <!-- CLUB NAV (ONLY IF CLUB EXISTS) -->
-      <% if (typeof club !== "undefined" && club) { %>
-        <nav class="nav-container">
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a
-                href="/clubs/<%= club._id %>"
-                class="nav-link <%= currentPage === 'overview' ? 'active' : '' %>"
-              >
-                Overview
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="/clubs/<%= club._id %>#events"
-                class="nav-link <%= currentPage === 'events' ? 'active' : '' %>"
-              >
-                Events
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="/clubs/<%= club._id %>#join"
-                class="nav-link <%= currentPage === 'request-to-join' ? 'active' : '' %>"
-              >
-                Request to join
-              </a>
-            </li>
-          </ul>
-        </nav>
-      <% } %>
+
 
       <!-- RIGHT: USER DROPDOWN -->
       <div class="dropdown dashboard-btn-container">

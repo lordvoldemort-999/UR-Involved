@@ -3,30 +3,15 @@
 <div class="club-detail-page">
 
   <!-- SUCCESS MESSAGE -->
-<% if (joined && joined.toString() === "true") { %>
-    <div style="
-      background: #e6f9f0;
-      color: #0c6b58;
-      padding: 12px;
-      margin: 20px;
-      border-radius: 10px;
-      font-weight: 500;
-      text-align: center;
-    ">
+  <% if (joined && joined.toString() === "true") { %>
+    <div class="alert success">
       Request sent successfully!
     </div>
   <% } %>
 
-  <!-- ALREADY REQUESTED MESSAGE -->
+  <!-- ALREADY REQUESTED -->
   <% if (existingJoinRequest) { %>
-    <div style="
-      background: #fff3cd;
-      color: #856404;
-      padding: 12px;
-      margin: 20px;
-      border-radius: 10px;
-      text-align: center;
-    ">
+    <div class="alert warning">
       You already have a pending join request.
     </div>
   <% } %>
@@ -41,7 +26,11 @@
       <!-- LEFT SIDE -->
       <div class="club-card">
 
-        <div class="club-logo"></div>
+        <% if (club.logo) { %>
+          <img src="<%= club.logo %>" class="club-logo-img" />
+        <% } else { %>
+          <img src="/images/URegina_Coat_of_Arms.svg" class="club-logo-img" />
+        <% } %>
 
         <h3 class="club-name"><%= club.name %></h3>
 
@@ -51,23 +40,18 @@
 
         <p class="created-date">
           Created:
-          <%= club.createdAt 
-            ? new Date(club.createdAt).toLocaleDateString() 
+          <%= club.createdAt
+            ? new Date(club.createdAt).toLocaleDateString()
             : "N/A" %>
         </p>
 
-        <!-- BUTTONS -->
         <div class="club-actions">
 
           <% if (existingJoinRequest) { %>
-            <button class="join-btn" disabled style="background: grey;">
-              Request Pending
-            </button>
+            <button class="join-btn" disabled>Request Pending</button>
 
           <% } else if (joined === "true") { %>
-            <button class="join-btn" disabled style="background: grey;">
-              Request Sent
-            </button>
+            <button class="join-btn" disabled>Request Sent</button>
 
           <% } else { %>
             <a href="/clubs/<%= club._id %>/join" class="join-btn">
@@ -83,42 +67,87 @@
 
         </div>
 
-        <!-- EMAIL -->
         <% if (club.contactEmail) { %>
-          <p class="contact-email">
-            <%= club.contactEmail %>
-          </p>
+          <p class="contact-email"><%= club.contactEmail %></p>
         <% } %>
 
       </div>
 
       <!-- RIGHT SIDE -->
-      <div class="events-area">
+      <div class="right-content">
 
-        <!-- UPCOMING EVENTS -->
-        <h2 class="section-title">Upcoming events</h2>
+        <!-- TABS -->
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('events', this)">Events</button>
+          <button class="tab" onclick="showTab('about', this)">About</button>
+          <button class="tab" onclick="showTab('members', this)">Members</button>
+          <button class="tab" onclick="showTab('gallery', this)">Gallery</button>
+        </div>
 
-        <div class="event-grid">
+        <!-- EVENTS -->
+        <div id="events" class="tab-content active">
+
+          <h3>Upcoming Events</h3>
+
           <% if (upcoming && upcoming.length > 0) { %>
-            <% upcoming.forEach(event => { %>
-              <div class="event-card">
-                <div class="event-image"></div>
-                <div class="event-info">
+            <div class="event-grid">
+              <% upcoming.forEach(event => { %>
+                <div class="event-card">
                   <h4><%= event.title %></h4>
                   <p><%= event.location || "No location" %></p>
                   <p><%= new Date(event.date).toLocaleDateString() %></p>
-                  <p><%= event.price ? "$" + event.price : "Free" %></p>
                 </div>
-              </div>
-            <% }) %>
+              <% }) %>
+            </div>
           <% } else { %>
-            <p class="no-events">No upcoming events</p>
+            <p>No upcoming events</p>
           <% } %>
+
+          <h3 style="margin-top:30px;">Past Events</h3>
+
+          <% if (past && past.length > 0) { %>
+            <div class="event-grid">
+              <% past.forEach(event => { %>
+                <div class="event-card">
+                  <h4><%= event.title %></h4>
+                  <p><%= event.location || "No location" %></p>
+                  <p><%= new Date(event.date).toLocaleDateString() %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p>No past events</p>
+          <% } %>
+
         </div>
 
-        <div class="actions">
-          <a href="#" class="btn btn-primary">Join Club</a>
-          <a href="/" class="btn btn-secondary">Back to Home</a>
+        <!-- ABOUT -->
+        <div id="about" class="tab-content">
+
+          <div class="empty-box">
+            <h4>About</h4>
+            <p><%= club.description || "No description available." %></p>
+          </div>
+
+          <div class="empty-box" style="margin-top: 20px;">
+            <h4>Category</h4>
+            <p><%= club.category || "Not specified" %></p>
+          </div>
+
+        </div>
+
+        <!-- MEMBERS -->
+        <div id="members" class="tab-content">
+          <div class="empty-box">
+            <p>Nothing to see (yet!)</p>
+          </div>
+        </div>
+
+        <!-- GALLERY -->
+        <div id="gallery" class="tab-content">
+          <div class="empty-box">
+            <p>Nothing to see (yet!)</p>
+          </div>
         </div>
 
       </div>
@@ -129,5 +158,19 @@
   <% } %>
 
   <%- include("layouts/footer") -%>
-
 </div>
+
+<script>
+function showTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
