@@ -30,7 +30,7 @@
             form="searchSortFilterForm"
             class="form-control border-0 shadow-none"
             placeholder="Search Clubs..."
-            value="<% if (typeof currentSearch !== 'undefined') { %><%= currentSearch %><% } %>"
+            value="<%= currentSearch %>"
           />
         </div>
       </div>
@@ -47,7 +47,7 @@
             id="sort-alphabetically"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentSort === 'undefined' || currentSort === 'alphabetical') { %>checked<% } %>
+            <% if (currentSort === 'alphabetical') { %>checked<% } %>
           />
           <label for="sort-alphabetically" class="form-check-label">Name A-Z</label>
         </li>
@@ -60,7 +60,7 @@
             id="sort-reverse-alphabetically"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentSort !== 'undefined' && currentSort === 'reverseAlphabetical') { %>checked<% } %>
+            <% if (currentSort === 'reverseAlphabetical') { %>checked<% } %>
           />
           <label for="sort-reverse-alphabetically" class="form-check-label">Name Z-A</label>
         </li>
@@ -73,7 +73,7 @@
             id="sort-by-newest"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentSort !== 'undefined' && currentSort === 'newest') { %>checked<% } %>
+            <% if (currentSort === 'newest') { %>checked<% } %>
           />
           <label for="sort-by-newest" class="form-check-label">Newest</label>
         </li>
@@ -86,7 +86,7 @@
             id="sort-by-oldest"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentSort !== 'undefined' && currentSort === 'oldest') { %>checked<% } %>
+            <% if (currentSort === 'oldest') { %>checked<% } %>
           />
           <label for="sort-by-oldest" class="form-check-label">Oldest</label>
         </li>
@@ -103,7 +103,7 @@
             id="filter-all"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter === 'undefined' || currentFilter === 'All') { %>checked<% } %>
+            <% if (currentFilter === 'All') { %>checked<% } %>
           />
           <label for="filter-all" class="form-check-label">All</label>
         </li>
@@ -116,7 +116,7 @@
             id="filter-academic"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Academic') { %>checked<% } %>
+            <% if (currentFilter === 'Academic') { %>checked<% } %>
           />
           <label for="filter-academic" class="form-check-label">Academic</label>
         </li>
@@ -129,7 +129,7 @@
             id="filter-arts"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Arts/Performance') { %>checked<% } %>
+            <% if (currentFilter === 'Arts/Performance') { %>checked<% } %>
           />
           <label for="filter-arts" class="form-check-label">Arts/Performance</label>
         </li>
@@ -142,7 +142,7 @@
             id="filter-cultural"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Cultural/Ethnic') { %>checked<% } %>
+            <% if (currentFilter === 'Cultural/Ethnic') { %>checked<% } %>
           />
           <label for="filter-cultural" class="form-check-label">Cultural/Ethnic</label>
         </li>
@@ -155,7 +155,7 @@
             id="filter-community"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Community') { %>checked<% } %>
+            <% if (currentFilter === 'Community') { %>checked<% } %>
           />
           <label for="filter-community" class="form-check-label">Community</label>
         </li>
@@ -168,7 +168,7 @@
             id="filter-athletics"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Athletics') { %>checked<% } %>
+            <% if (currentFilter === 'Athletics') { %>checked<% } %>
           />
           <label for="filter-athletics" class="form-check-label">Athletics</label>
         </li>
@@ -181,7 +181,7 @@
             id="filter-hobby"
             form="searchSortFilterForm"
             class="form-check-input me-1"
-            <% if (typeof currentFilter !== 'undefined' && currentFilter === 'Hobby') { %>checked<% } %>
+            <% if (currentFilter === 'Hobby') { %>checked<% } %>
           />
           <label for="filter-hobby" class="form-check-label">Hobby</label>
         </li>

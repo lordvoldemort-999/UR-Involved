@@ -4,43 +4,8 @@ const ClubCreationRequest = require("../../database/models/ClubCreationRequest")
 
 exports.showHomePage = async (req, res) => {
   try {
-    // Grab the inputs from the URL (defaulting to empty/all if it's their first visit)
-    const search = req.query.search || "";
-    const sort = req.query.sort || "alphabetical";
-    const filter = req.query.filter || "All";
+    const { clubs, search, sort, filter } = await getClubsData(req.query);
 
-    // Build the base database query (only show approved clubs)
-    let query = { approved: true };
-
-    // If they typed a search term, find partial matches in the club name (case-insensitive)
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { category: { $regex: search, $options: "i" } }
-      ];
-    }
-
-    // If they selected a specific category, add it to the query
-    if (filter !== "All") {
-      query.category = filter;
-    }
-
-    // Figure out how to sort the database results
-    let sortOptions = {};
-    if (sort === "alphabetical") {
-      sortOptions = { name: 1 }; // 1 is ascending (A-Z)
-    } else if (sort === "reverseAlphabetical") {
-      sortOptions = { name: -1 }; // -1 is descending (Z-A)
-    } else if (sort === "newest") {
-      sortOptions = { createdAt: -1 }; // Newest first
-    } else if (sort === "oldest") {
-      sortOptions = { createdAt: 1 }; // Oldest first
-    }
-
-    // Fetch the clubs using the dynamically built query and sort options
-    const clubs = await Club.find(query).sort(sortOptions);
-
-    // Render the page, passing the clubs AND the current selections so EJS can check the right boxes
     res.render("home", { 
       clubs,
       currentSearch: search,
@@ -54,43 +19,51 @@ exports.showHomePage = async (req, res) => {
   }
 };
 
+// used to update club list on homepage without a full page reload
 exports.renderClubPartial = async (req, res) => {
   try {
-    const search = req.query.search || "";
-    const sort = req.query.sort || "alphabetical";
-    const filter = req.query.filter || "All";
-
-    let query = { approved: true };
-
-    // Check for search terms across name, category, and description
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { category: { $regex: search, $options: "i" } }
-      ];
-    }
-
-    // Apply category filter if it's not "All"
-    if (filter !== "All") {
-      query.category = filter;
-    }
-
-    // Apply the correct sorting logic
-    let sortOptions = {};
-    if (sort === "alphabetical") sortOptions = { name: 1 };
-    else if (sort === "reverseAlphabetical") sortOptions = { name: -1 };
-    else if (sort === "newest") sortOptions = { createdAt: -1 };
-    else if (sort === "oldest") sortOptions = { createdAt: 1 };
-
-    // Fetch the data from MongoDB
-    const clubs = await Club.find(query).sort(sortOptions);
-    
-    res.render("partials/clubList", { clubs: clubs }); 
+    const { clubs } = await getClubsData(req.query);
+    res.render("partials/clubList", { clubs }); 
 
   } catch (error) {
     console.error("Error rendering club partial", error);
     res.status(500).send("<p>Error loading clubs. Please try again.</p>");
   }
+};
+
+
+// Helper to build the MongoDB query and sort options based on request parameters
+const getClubsData = async (reqQuery) => {
+  const search = reqQuery.search || "";
+  const sort = reqQuery.sort || "alphabetical";
+  const filter = reqQuery.filter || "All";
+
+  let query = { approved: true };
+
+  // Search across Name, Category, and Description
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { category: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } }
+    ];
+  }
+
+  // Apply category filter if it's not "All"
+  if (filter !== "All") {
+    query.category = filter;
+  }
+
+  // Define sorting logic
+  let sortOptions = {};
+  if (sort === "alphabetical") sortOptions = { name: 1 };
+  else if (sort === "reverseAlphabetical") sortOptions = { name: -1 };
+  else if (sort === "newest") sortOptions = { createdAt: -1 };
+  else if (sort === "oldest") sortOptions = { createdAt: 1 };
+
+  const clubs = await Club.find(query).sort(sortOptions);
+
+  return { clubs, search, sort, filter };
 };
 
 exports.showClubDetails = async (req, res) => {
