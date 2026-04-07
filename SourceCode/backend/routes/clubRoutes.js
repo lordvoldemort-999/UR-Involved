@@ -13,7 +13,6 @@ router.get("/", clubController.showHomePage);
 router.get("/partials/clubs", clubController.renderClubPartial);
 
 router.get("/clubs/:id", clubController.showClubDetails);
-router.get("/create-club", ensureAuthenticated, ensureStudent, clubController.showCreateClubPage);
 
 router.get("/clubs/:id/join", ensureAuthenticated, ensureStudent, (req, res) => {
   const clubId = req.params.id;
