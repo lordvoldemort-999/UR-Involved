@@ -10,6 +10,8 @@ const {
 } = require("../middleware/authMiddleware");
 
 router.get("/", clubController.showHomePage);
+router.get("/partials/clubs", clubController.renderClubPartial);
+
 router.get("/clubs/:id", clubController.showClubDetails);
 router.get("/create-club", ensureAuthenticated, ensureStudent, clubController.showCreateClubPage);
 
