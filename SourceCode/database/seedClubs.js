@@ -1,6 +1,15 @@
 const mongoose = require("mongoose");
 require("dotenv").config({ path: require("path").join(__dirname, "../../.env") });
 const Club = require("./models/Club");
+const User = require("./models/User");
+
+const users = [
+    {
+        email: "rob@uregina.ca",
+        password: "robspassword",
+        role: "systemAdmin"
+    }
+];
 
 const clubs = [
     {
@@ -50,6 +59,12 @@ async function seedDatabase() {
 
         await Club.insertMany(clubs);
         console.log("clubs inserted into database");
+
+        await User.deleteMany({});
+        console.log("users deleted");
+
+        await User.insertMany(users);
+        console.log("users inserted into database");
 
         mongoose.connection.close();
         console.log("connection to mongodb closed");

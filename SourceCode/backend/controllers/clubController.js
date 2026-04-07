@@ -5,19 +5,27 @@ const mongoose = require("mongoose");
 
 exports.showHomePage = async (req, res) => {
   try {
-    const clubs = await Club.find({ approved: true }).sort({ name: 1 });
-    let tempUsername = "";
-    if (await req.user) {
-      tempUsername = req.user.email;
-    }
-    const username = tempUsername;
+    const { clubs, search, sort, filter } = await getClubsData(req.query);
+
     res.render("home", { 
       clubs,
-      username});
+      currentSearch: search,
+      currentSort: sort,
+      currentFilter: filter
+    });
+
   } catch (error) {
     console.error("failure rendering home page", error);
     res.status(500).send("Error loading homepage.");
   }
+};
+
+exports.showEditProfile = async (req, res) => {
+  res.render("editProfile", { user: req.user });
+};
+
+exports.showClubCreation = async (req, res) => {
+  res.render("createClub", { user: req.user });
 };
 
 // used to update club list on homepage without a full page reload
