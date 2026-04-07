@@ -92,99 +92,111 @@
       </ul>
       <hr />
       <h4>Filter</h4>
-      <ul class="list-group">
-        <!-- Display all clubs by default-->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="All"
-            id="filter-all"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'All') { %>checked<% } %>
-          />
-          <label for="filter-all" class="form-check-label">All</label>
-        </li>
-        <!-- Filter Academic -->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Academic"
-            id="filter-academic"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Academic') { %>checked<% } %>
-          />
-          <label for="filter-academic" class="form-check-label">Academic</label>
-        </li>
-        <!-- Filter Arts/Performance -->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Arts/Performance"
-            id="filter-arts"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Arts/Performance') { %>checked<% } %>
-          />
-          <label for="filter-arts" class="form-check-label">Arts/Performance</label>
-        </li>
-        <!-- Filter Cultural/Ethnic -->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Cultural/Ethnic"
-            id="filter-cultural"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Cultural/Ethnic') { %>checked<% } %>
-          />
-          <label for="filter-cultural" class="form-check-label">Cultural/Ethnic</label>
-        </li>
-        <!-- Filter Community-->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Community"
-            id="filter-community"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Community') { %>checked<% } %>
-          />
-          <label for="filter-community" class="form-check-label">Community</label>
-        </li>
-        <!-- Filter Athletics -->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Athletics"
-            id="filter-athletics"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Athletics') { %>checked<% } %>
-          />
-          <label for="filter-athletics" class="form-check-label">Athletics</label>
-        </li>
-        <!-- Filter Hobby -->
-        <li>
-          <input
-            type="radio"
-            name="filter"
-            value="Hobby"
-            id="filter-hobby"
-            form="searchSortFilterForm"
-            class="form-check-input me-1"
-            <% if (currentFilter === 'Hobby') { %>checked<% } %>
-          />
-          <label for="filter-hobby" class="form-check-label">Hobby</label>
-        </li>
-      </ul>
+<ul class="list-group">
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="All"
+      id="filter-all"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'All') { %>checked<% } %>
+    />
+    <label for="filter-all" class="form-check-label">All</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Science"
+      id="filter-science"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Science') { %>checked<% } %>
+    />
+    <label for="filter-science" class="form-check-label">Science</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Humanities"
+      id="filter-humanities"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Humanities') { %>checked<% } %>
+    />
+    <label for="filter-humanities" class="form-check-label">Humanities</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Engineering"
+      id="filter-engineering"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Engineering') { %>checked<% } %>
+    />
+    <label for="filter-engineering" class="form-check-label">Engineering</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Sports"
+      id="filter-sports"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Sports') { %>checked<% } %>
+    />
+    <label for="filter-sports" class="form-check-label">Sports</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Recreational"
+      id="filter-recreational"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Recreational') { %>checked<% } %>
+    />
+    <label for="filter-recreational" class="form-check-label">Recreational</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Nursing"
+      id="filter-nursing"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Nursing') { %>checked<% } %>
+    />
+    <label for="filter-nursing" class="form-check-label">Nursing</label>
+  </li>
+
+  <li>
+    <input
+      type="radio"
+      name="filter"
+      value="Business"
+      id="filter-business"
+      form="searchSortFilterForm"
+      class="form-check-input me-1"
+      <% if (currentFilter === 'Business') { %>checked<% } %>
+    />
+    <label for="filter-business" class="form-check-label">Business</label>
+  </li>
+</ul>
     </div>
     <!-- Club Cards -->
     <div class="club-group" id="club-container">
