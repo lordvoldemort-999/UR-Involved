@@ -30,20 +30,13 @@ exports.showClubDetails = async (req, res) => {
       approved: true
     });
 
-    if (!mongoose.Types.ObjectId.isValid(clubId)) {
-      return res.status(400).send("Invalid club ID");
+    if (!club) {
+      return res.status(404).send("Club not found.");
     }
 
     const upcoming = [];
     const past = [];
 
-    const joined = req.query.joined;
-
-  
-    const upcoming = [];
-    const past = [];
-
-    
     const joined = req.query.joined;
 
     res.render("clubDetail", {
@@ -60,6 +53,7 @@ exports.showClubDetails = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
 exports.showDashboard = async (req, res) => {
   try {
     const userJoinRequests = await JoinRequest.find({
