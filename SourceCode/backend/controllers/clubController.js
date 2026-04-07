@@ -88,7 +88,7 @@ exports.showEditProfile = async (req, res) => {
 }
 
 exports.showClubCreation = async (req, res) => {
-  res.render("createClub");
+  res.render("createClub", {user: req.user});
 }
 
 exports.submitJoinRequest = async (req, res) => {
