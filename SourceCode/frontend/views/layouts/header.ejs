@@ -4,23 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UR Involved</title>
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
+
     <link rel="stylesheet" href="/css/style.css" />
   </head>
+
   <body>
     <header class="header header-main">
+
+      <!-- HERO TEXT -->
       <div class="header-icon-container">
-        <img src="/images/URegina_Coat_of_Arms.svg" alt="UR Icon" />
-        <h2>UR Involved</h2>
+        <div class="hero-text">
+          <h1>UR INVOLVED</h1>
+          <p>The heart of student life at U of R.</p>
+        </div>
       </div>
 
+      <!-- RIGHT SIDE BUTTONS -->
       <div class="header-nav-main">
         <% if (currentUser && currentUser.role === "student") { %>
               <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
@@ -28,19 +37,27 @@
               <a href="/login" class="btn btn-warning" role="button"> Login</a>
             <% } %>
 
-        <!-- TODO: Add the following code back in when events page is added: -->
-        <!-- ADD: <a href="/events" class="btn btn-warning" role="button">Events</a> -->
       </div>
 
+      <!-- PROFILE DROPDOWN -->
       <div class="dropdown dashboard-btn-container">
-        <button class="btn dropdown-toggle bg-transparent border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+        <button 
+          class="btn dropdown-toggle bg-transparent border-0"
+          type="button"
+          data-bs-toggle="dropdown"
+          data-bs-display="static"
+          aria-expanded="false">
+
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="rgba(224, 210, 14, 1)" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
           </svg>
+
         </button>
 
-        <ul class="dropdown-menu">
-          <label class="btn btn-warning" style="width: 158px; width: 192px; height: auto; text-align: center">
+       <ul class="dropdown-menu dropdown-menu-end">
+
+          <label class="btn btn-warning rounded-pill px-4" style="width: 192px; text-align: center">
             <% if (currentUser) { %>
               <%= currentUser.email %>
             <% } else { %>
@@ -51,9 +68,10 @@
           <hr class="dropdown-divider">
 
           <% if (currentUser) { %>
+
             <li>
-              <form action="/dashboard" method="get" class="dropdown-item" style="height: 32px; text-align: center; margin: 0px;">
-                <button class="bg-transparent border-0" type="submit" style="width: 158px; height: auto; text-align: left">
+              <form action="/dashboard" method="get" class="dropdown-item" style="margin: 0;">
+                <button class="bg-transparent border-0" type="submit" style="width: 100%; text-align: left">
                   Dashboard
                 </button>
               </form>
@@ -62,19 +80,26 @@
             <hr class="dropdown-divider">
 
             <li>
-              <form action="/logout" method="post" class="dropdown-item" style="height: 32px; text-align: center; margin: 0px;">
-                <button class="bg-transparent border-0" type="submit" style="width: 158px; height: auto; text-align: left">
+              <form action="/logout" method="post" class="dropdown-item" style="margin: 0;">
+                <button class="bg-transparent border-0" type="submit" style="width: 100%; text-align: left">
                   Logout
                 </button>
               </form>
             </li>
+
           <% } else { %>
+
             <li>
-              <a href="/login" class="dropdown-item" style="height: 32px; text-align: left; margin: 0px; display: block;">
+              <a href="/login" class="dropdown-item" style="text-align: left; display: block;">
                 Login
               </a>
             </li>
+
           <% } %>
+
         </ul>
       </div>
+
     </header>
+  </body>
+</html>
