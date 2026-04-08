@@ -23,6 +23,11 @@ const clubSchema = new mongoose.Schema(
       trim: true,
       lowercase: true
     },
+    website: {
+      type: String,
+      required: true,
+      trim: true
+    },
     logo: {
       type: String,
       trim: true,

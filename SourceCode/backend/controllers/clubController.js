@@ -252,11 +252,9 @@ exports.submitJoinRequest = async (req, res) => {
 
 exports.submitClubCreationRequest = async (req, res) => {
   try {
-    console.log("req.file:", req.file);
-    console.log("req.body:", req.body);
     
-    const { proposedName, description, category, contactEmail } = req.body;
-    if (!proposedName || !description || !category || !contactEmail) {
+    const { proposedName, description, category, contactEmail, website } = req.body;
+    if (!proposedName || !description || !category || !contactEmail || !website) {
       return res.status(400).send("All fields are required.");
     }
 
@@ -270,6 +268,7 @@ exports.submitClubCreationRequest = async (req, res) => {
       description: description.trim(),
       category: category.trim(),
       contactEmail: contactEmail.trim().toLowerCase(),
+      website: website.trim(),
       logo: logoPath
     });
 
@@ -307,6 +306,7 @@ exports.approveClubCreationRequest = async (req, res) => {
       description: request.description,
       category: request.category,
       contactEmail: request.contactEmail,
+      website: request.website,
       logo: request.logo || "/images/University_of_Regina_Logo.jpg",
       approved: true,
       createdBy: request.requestedBy,
