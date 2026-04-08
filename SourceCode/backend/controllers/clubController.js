@@ -82,7 +82,7 @@ exports.showCreateClubPage = (req, res) => {
 exports.showClubDetails = async (req, res) => {
   try {
     const clubId = req.params.id;
-    
+
     if (!mongoose.Types.ObjectId.isValid(clubId)) {
       return res.status(400).send("Invalid club ID");
     }
@@ -99,8 +99,19 @@ exports.showClubDetails = async (req, res) => {
     const upcoming = [];
     const past = [];
     let joinRequests = [];
+    let existingJoinRequest = null;
+    let alreadyMember = false;
 
     if (req.user) {
+      alreadyMember = club.members.some(
+        memberId => memberId.toString() === req.user._id.toString()
+      );
+
+      existingJoinRequest = await JoinRequest.findOne({
+        student: req.user._id,
+        club: club._id
+      }).sort({ createdAt: -1 });
+
       const isOwner =
         club.createdBy && club.createdBy.toString() === req.user._id.toString();
 
@@ -118,16 +129,14 @@ exports.showClubDetails = async (req, res) => {
       }
     }
 
-    const joined = req.query.joined;
-
     res.render("clubDetail", {
       club,
       upcoming,
       past,
-      joined, 
-      existingJoinRequest: req.query.existingJoinRequest === "true",
       currentPage: "overview",
-      joinRequests
+      joinRequests,
+      existingJoinRequest,
+      alreadyMember
     });
 
   } catch (error) {
@@ -159,8 +168,9 @@ exports.showDashboard = async (req, res) => {
     }).populate("club");
 
     const userClubCreationRequests = await ClubCreationRequest.find({
-      requestedBy: req.user._id
-    });
+      requestedBy: req.user._id,
+      status: { $in: ["pending", "rejected"] }
+    }).sort({ createdAt: -1 });
 
     const memberClubs = await Club.find({
       members: req.user._id
@@ -211,7 +221,7 @@ exports.submitJoinRequest = async (req, res) => {
     );
 
     if (alreadyMember) {
-      return res.status(400).send("You are already a member of this club.");
+      return res.redirect(`/clubs/${club._id}`);
     }
 
     const existingRequest = await JoinRequest.findOne({
@@ -221,18 +231,19 @@ exports.submitJoinRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.redirect(`/clubs/${club._id}?existingJoinRequest=true`);
+      return res.redirect(`/clubs/${club._id}`);
     }
 
     const joinRequest = new JoinRequest({
       student: req.user._id,
       club: club._id,
-      message: req.body.message || ""
+      message: "",
+      status: "pending"
     });
 
     await joinRequest.save();
 
-    res.redirect(`/clubs/${club._id}?joined=true`);
+    res.redirect(`/clubs/${club._id}`);
   } catch (error) {
     console.error("error submitting join request", error);
     res.status(500).send("Error submitting join request.");
