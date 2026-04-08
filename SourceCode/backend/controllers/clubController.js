@@ -75,6 +75,7 @@ const getClubsData = async (reqQuery) => {
 
   return { clubs, search, sort, filter };
 };
+
 exports.showCreateClubPage = (req, res) => {
   res.render("createClub");
 };
@@ -87,39 +88,40 @@ exports.showClubDetails = async (req, res) => {
       return res.status(400).send("Invalid club ID");
     }
 
-    const club = await Club.findOne({
-      _id: clubId,
-      approved: true
-    }).populate("createdBy", "email");
-
-    if (!club) {
-      return res.status(404).send("Club not found.");
-    }
+    // 1. Fetch club info and owner's email (Static Populate from main branch)
+    const club = await Club.findOne({ _id: clubId, approved: true }).populate("createdBy", "email");
+    if (!club) return res.status(404).send("Club not found.");
 
     const upcoming = [];
     const past = [];
     let joinRequests = [];
     let existingJoinRequest = null;
     let alreadyMember = false;
+    let isOwner = false;
+    let isSystemAdmin = false;
 
     if (req.user) {
-      alreadyMember = club.members.some(
-        memberId => memberId.toString() === req.user._id.toString()
-      );
+      alreadyMember = club.members.some(m => m.toString() === req.user._id.toString());
+      
+      // FIXED: Use ._id because createdBy is now an object due to .populate()
+      isOwner = club.createdBy && club.createdBy._id.toString() === req.user._id.toString();
+      
+      isSystemAdmin = req.user.role === "systemAdmin";
+      const isAdmin = club.admins && club.admins.some(a => a.toString() === req.user._id.toString());
+
+      // 2. Conditional Member Visibility (Security Check)
+      if (alreadyMember || isOwner || isSystemAdmin) {
+        await club.populate("members", "email");
+      } else {
+        // If they don't have permission, we empty the members array 
+        // so the EJS "No members yet" logic works safely
+        club.members = []; 
+      }
 
       existingJoinRequest = await JoinRequest.findOne({
         student: req.user._id,
         club: club._id
       }).sort({ createdAt: -1 });
-
-      const isOwner =
-        club.createdBy && club.createdBy.toString() === req.user._id.toString();
-
-      const isAdmin =
-        club.admins &&
-        club.admins.some(adminId => adminId.toString() === req.user._id.toString());
-
-      const isSystemAdmin = req.user.role === "systemAdmin";
 
       if (isOwner || isAdmin || isSystemAdmin) {
         joinRequests = await JoinRequest.find({
@@ -127,6 +129,9 @@ exports.showClubDetails = async (req, res) => {
           status: "pending"
         }).populate("student");
       }
+    } else {
+      // Not logged in? They definitely can't see members
+      club.members = [];
     }
 
     res.render("clubDetail", {
@@ -136,7 +141,10 @@ exports.showClubDetails = async (req, res) => {
       currentPage: "overview",
       joinRequests,
       existingJoinRequest,
-      alreadyMember
+      alreadyMember,
+      joined: req.query.joined,
+      isOwner,
+      isSystemAdmin
     });
 
   } catch (error) {
@@ -511,5 +519,36 @@ exports.deleteClub = async (req, res) => {
   } catch (error) {
     console.error("error deleting club", error);
     res.status(500).send("Error deleting club.");
+  }
+};
+
+exports.removeClubMember = async (req, res) => {
+  try {
+    const { id, memberId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(memberId)) {
+      return res.status(400).send("Invalid ID provided.");
+    }
+
+    const club = await Club.findById(id);
+    if (!club) {
+      return res.status(404).send("Club not found.");
+    }
+
+    const isOwner = club.createdBy && club.createdBy.toString() === req.user._id.toString();
+    const isSystemAdmin = req.user.role === "systemAdmin";
+
+    if (!isOwner && !isSystemAdmin) {
+      return res.status(403).send("You are not authorized to remove members from this club.");
+    }
+
+    // Filter out the member to be removed
+    club.members = club.members.filter(m => m.toString() !== memberId);
+    await club.save();
+
+    res.redirect(`/clubs/${id}`);
+  } catch (error) {
+    console.error("error removing club member", error);
+    res.status(500).send("Error removing member.");
   }
 };
