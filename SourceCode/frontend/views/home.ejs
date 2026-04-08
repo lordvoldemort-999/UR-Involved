@@ -196,6 +196,10 @@
 </ul>
     </div>
 
+    <div class="club-group" id="club-container">
+      <%- include("partials/clubList.ejs", { clubs: clubs }) %>
+    </div>
+
 <script src="/js/filterClubs.js"></script>
 
 <%- include("layouts/footer.ejs") -%>
