@@ -75,6 +75,7 @@ const getClubsData = async (reqQuery) => {
 
   return { clubs, search, sort, filter };
 };
+
 exports.showCreateClubPage = (req, res) => {
   res.render("createClub");
 };
@@ -90,7 +91,7 @@ exports.showClubDetails = async (req, res) => {
     const club = await Club.findOne({
       _id: clubId,
       approved: true
-    });
+    }).populate("members", "email");
 
     if (!club) {
       return res.status(404).send("Club not found.");
@@ -100,15 +101,13 @@ exports.showClubDetails = async (req, res) => {
     const past = [];
     let joinRequests = [];
 
-    if (req.user) {
-      const isOwner =
-        club.createdBy && club.createdBy.toString() === req.user._id.toString();
+    const isOwner = req.user && club.createdBy && club.createdBy.toString() === req.user._id.toString();
+    const isSystemAdmin = req.user && req.user.role === "systemAdmin";
 
+    if (req.user) {
       const isAdmin =
         club.admins &&
         club.admins.some(adminId => adminId.toString() === req.user._id.toString());
-
-      const isSystemAdmin = req.user.role === "systemAdmin";
 
       if (isOwner || isAdmin || isSystemAdmin) {
         joinRequests = await JoinRequest.find({
@@ -127,7 +126,9 @@ exports.showClubDetails = async (req, res) => {
       joined, 
       existingJoinRequest: req.query.existingJoinRequest === "true",
       currentPage: "overview",
-      joinRequests
+      joinRequests,
+      isOwner,
+      isSystemAdmin
     });
 
   } catch (error) {
@@ -500,5 +501,36 @@ exports.deleteClub = async (req, res) => {
   } catch (error) {
     console.error("error deleting club", error);
     res.status(500).send("Error deleting club.");
+  }
+};
+
+exports.removeClubMember = async (req, res) => {
+  try {
+    const { id, memberId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id) || !mongoose.Types.ObjectId.isValid(memberId)) {
+      return res.status(400).send("Invalid ID provided.");
+    }
+
+    const club = await Club.findById(id);
+    if (!club) {
+      return res.status(404).send("Club not found.");
+    }
+
+    const isOwner = club.createdBy && club.createdBy.toString() === req.user._id.toString();
+    const isSystemAdmin = req.user.role === "systemAdmin";
+
+    if (!isOwner && !isSystemAdmin) {
+      return res.status(403).send("You are not authorized to remove members from this club.");
+    }
+
+    // Filter out the member to be removed
+    club.members = club.members.filter(m => m.toString() !== memberId);
+    await club.save();
+
+    res.redirect(`/clubs/${id}`);
+  } catch (error) {
+    console.error("error removing club member", error);
+    res.status(500).send("Error removing member.");
   }
 };
