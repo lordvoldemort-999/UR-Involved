@@ -13,11 +13,7 @@
   <div class="profile-card mb-4 mt-3 shadow">
     <div class="profile-left">
       <img
-<<<<<<< HEAD
         src="<%= user.profilePicture || '/images/person-2-svgrepo-com.png' %>"
-=======
-        src="<%= user.profilePicture || 'images/person-2-svgrepo-com.png' %>"
->>>>>>> origin/main
         alt="Your profile image"
         class="profile-image"
       />
@@ -156,7 +152,15 @@
                 <img src="<%= club.logo %>" alt="Club logo" />
                 <p><%= club.name %></p>
 
-                <% if (club.createdBy && club.createdBy.toString() === user._id.toString()) { %>
+                <%
+                  const createdById = club.createdBy && club.createdBy._id
+                    ? club.createdBy._id.toString()
+                    : club.createdBy
+                      ? club.createdBy.toString()
+                      : null;
+                %>
+
+                <% if (createdById && createdById === user._id.toString()) { %>
                   <small>Club Creator</small>
                 <% } else if (club.admins && club.admins.some(adminId => adminId.toString() === user._id.toString())) { %>
                   <small>Admin</small>
