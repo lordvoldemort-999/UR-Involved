@@ -87,13 +87,18 @@ h2 {
   flex: 1;
 }
 
+#clubs-section {
+  grid-column: 5/11;
+  width: 100%;
+}
+
 .search-bar {
   background-color: #e0e0e0;
   border-radius: 50px;
   padding: 0.75rem 1.25rem;
   width: 100%;
-  max-width: 1003px;
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
+  box-sizing: border-box;
 }
 
 .search-bar:focus-within {
