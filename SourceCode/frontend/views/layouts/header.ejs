@@ -31,20 +31,11 @@
 
       <!-- RIGHT SIDE BUTTONS -->
       <div class="header-nav-main">
-
-        <a href="/" class="hero-btn-box">
-          Browse Clubs <span>››</span>
-        </a>
-
-        <% if (currentUser) { %>
-          <a href="/create-club" class="hero-btn-box">
-            Create Club <span>››</span>
-          </a>
-        <% } else { %>
-          <a href="/login" class="hero-btn-box">
-            Login <span>››</span>
-          </a>
-        <% } %>
+        <% if (currentUser && currentUser.role === "student") { %>
+              <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
+            <% } else { %>
+              <a href="/login" class="btn btn-warning" role="button"> Login</a>
+            <% } %>
 
       </div>
 
