@@ -2,6 +2,7 @@ const Club = require("../../database/models/Club");
 const JoinRequest = require("../../database/models/JoinRequest");
 const ClubCreationRequest = require("../../database/models/ClubCreationRequest");
 const mongoose = require("mongoose");
+const User = require("../../database/models/User");
 
 exports.showHomePage = async (req, res) => {
   try {
@@ -122,10 +123,14 @@ exports.showDashboard = async (req, res) => {
         .populate("requestedBy")
         .sort({ createdAt: -1 });
 
+      const allUsers = await User.find({ role: { $ne: "systemAdmin" } })
+        .sort({ createdAt: -1 });
+
       return res.render("dashboard", {
         user: req.user,
         isSystemAdminDashboard: true,
-        clubRequests
+        clubRequests,
+        allUsers
       });
     }
 

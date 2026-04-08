@@ -275,7 +275,7 @@ h2 {
   border: 1px solid rgba(0, 0, 0, 0.65);
   border-radius: 30px;
   gap: 25px;
-  height: 320px;
+  height: 360px;
 }
 
 .profile-image {
@@ -774,6 +774,14 @@ a.join-btn:active {
   margin-bottom: 25px;
 }
 
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 266px;
+  flex-shrink: 0;
+}
+
 .tab {
   padding: 8px 18px;
   border: none;
@@ -811,4 +819,12 @@ a.join-btn:active {
   padding: 30px;
   background: #f5f7fa;
   border-radius: 20px;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
 }

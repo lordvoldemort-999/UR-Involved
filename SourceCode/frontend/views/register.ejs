@@ -127,7 +127,7 @@
       <h1>Create Account</h1>
       <p class="subtitle">Join the University of Regina clubs community</p>
 
-      <form action="/register" method="POST">
+      <form action="/register" method="POST" enctype="multipart/form-data">
         <label for="email">University Email</label>
         <input
           type="email"
@@ -154,6 +154,14 @@
           name="confirmPassword"
           placeholder="Re-enter your password"
           required
+        >
+
+        <label for="profileImage"> Profile Picture (optional)</label>
+        <input
+          type="file"
+          id="profileImage"
+          name="profileImage"
+          accept=".png,.jpg,.jpeg,.gif,.webp"
         >
 
         <button type="submit">Register</button>

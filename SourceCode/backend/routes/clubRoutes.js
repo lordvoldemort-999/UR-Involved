@@ -39,4 +39,5 @@ router.post("/admin/join-requests/:id/approve", ensureAuthenticated, clubControl
 router.post("/admin/join-requests/:id/reject", ensureAuthenticated, clubController.rejectJoinRequest);
 router.post("/clubs/:id/delete", ensureAuthenticated, clubController.deleteClub);
 
+
 module.exports = router;

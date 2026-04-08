@@ -1,6 +1,93 @@
 const bcrypt = require("bcrypt");
 const passport = require("../config/passport");
 const User = require("../../database/models/User");
+const Club = require("../../database/models/Club");
+const JoinRequest = require("../../database/models/JoinRequest");
+const ClubCreationRequest = require("../../database/models/ClubCreationRequest");
+
+exports.deleteUserByAdmin = async (req, res) => {
+  try {
+    const userToDelete = await User.findById(req.params.id);
+
+    if (!userToDelete) {
+      return res.status(404).send("User not found.");
+    }
+
+    if (userToDelete.role === "systemAdmin") {
+      return res.status(403).send("System admin accounts cannot be deleted here.");
+    }
+
+    const createdClub = await Club.findOne({ createdBy: userToDelete._id });
+    if (createdClub) {
+      return res.status(400).send("Cannot delete a user who is the creator of a club.");
+    }
+
+    await JoinRequest.deleteMany({ student: userToDelete._id });
+    await ClubCreationRequest.deleteMany({ requestedBy: userToDelete._id });
+
+    await Club.updateMany(
+      {},
+      {
+        $pull: {
+          members: userToDelete._id,
+          admins: userToDelete._id
+        }
+      }
+    );
+
+    await User.findByIdAndDelete(userToDelete._id);
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Admin delete user error:", error);
+    res.status(500).send("Error deleting user.");
+  }
+};
+
+exports.deleteAccount = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).send("Not logged in.");
+    }
+
+    if (req.user.role === "systemAdmin") {
+      return res.status(403).send("System admin accounts cannot be deleted here.");
+    }
+
+    const createdClub = await Club.findOne({ createdBy: req.user._id });
+    if (createdClub) {
+      return res.status(400).send("You cannot delete your account while you are the creator of a club.");
+    }
+
+    await JoinRequest.deleteMany({ student: req.user._id });
+    await ClubCreationRequest.deleteMany({ requestedBy: req.user._id });
+    await Club.updateMany(
+      {},
+      {
+        $pull: {
+          members: req.user._id,
+          admins: req.user._id
+        }
+      }
+    );
+
+    await User.findByIdAndDelete(req.user._id);
+
+    req.logout((error) => {
+      if (error) return next(error);
+
+      req.session.destroy((sessionError) => {
+        if (sessionError) return next(sessionError);
+
+        res.clearCookie("connect.sid");
+        res.redirect("/register");
+      });
+    });
+  } catch (error) {
+    console.error("Delete account error:", error);
+    res.status(500).send("Error deleting account.");
+  }
+};
 
 exports.showRegisterPage = (req, res) => {
   res.render("register");
@@ -29,10 +116,15 @@ exports.registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const profileImagePath = req.file
+    ? `/images/profile-pictures/${req.file.filename}`
+    : "/images/University_of_Regina_Logo.jpg";
+
     const newUser = new User({
       email: email.toLowerCase(),
       password: hashedPassword,
-      role: "student"
+      role: "student",
+      profilePicture: profileImagePath
     });
 
     await newUser.save();
@@ -87,3 +179,25 @@ exports.showCurrentUser = (req, res) => {
   `);
 };
 
+exports.updateProfileImage = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).send("Not logged in.");
+    }
+
+    if (!req.file) {
+      return res.status(400).send("Please choose an image.");
+    }
+
+    const profileImagePath = `/images/profile-pictures/${req.file.filename}`;
+
+    await User.findByIdAndUpdate(req.user._id, {
+      profileImage: profileImagePath
+    });
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Profile image update error:", error);
+    res.status(500).send("Error updating profile image.");
+  }
+};

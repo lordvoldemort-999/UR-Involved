@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
       enum: ['student', 'systemAdmin'],
       default: 'student', 
     },
+    profilePicture: {
+      type: String,
+      trim: true,
+      default: "/images/University_of_Regina_Logo.jpg" 
+    }
   },
   { timestamps: true }
 );
