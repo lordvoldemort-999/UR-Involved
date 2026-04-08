@@ -1030,31 +1030,26 @@ a.hero-btn-box:hover {
 }
 
 /* ABOUT CARD */
+/* ABOUT CARD */
+/* ABOUT CARD */
 .about-card {
-<<<<<<< feature/footer
   font-size: 21px;
   border-radius: 30px;
   padding: 2rem;
   grid-column: 3/11;
-  background: rgb(206, 206, 206);
-}
-
-=======
   background: var(--light-bg);
-  border-radius: 30px;
-  padding: 2rem;
-  grid-column: 3/11;
   font-family: "Poppins", sans-serif;
 }
 
+
 /* ABOUT TITLE */
->>>>>>> main
 .about-card-title {
   grid-column: 3/11;
   font-size: 40px;
   font-weight: 500;
   text-align: center;
-<<<<<<< feature/footer
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
 }
 
 .quicklinks {
@@ -1080,9 +1075,6 @@ a.hero-btn-box:hover {
 
 .quicklink-buttons:hover {
   background: #ffdb7e;
-}
-=======
   font-family: "Oswald", sans-serif;
   color: var(--primary);
 }
->>>>>>> main
