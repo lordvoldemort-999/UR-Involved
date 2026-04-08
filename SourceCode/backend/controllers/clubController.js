@@ -117,6 +117,18 @@ exports.showClubDetails = async (req, res) => {
 
 exports.showDashboard = async (req, res) => {
   try {
+    if (req.user.role === "systemAdmin") {
+      const clubRequests = await ClubCreationRequest.find({status: "pending"})
+        .populate("requestedBy")
+        .sort({ createdAt: -1 });
+
+      return res.render("dashboard", {
+        user: req.user,
+        isSystemAdminDashboard: true,
+        clubRequests
+      });
+    }
+
     const userJoinRequests = await JoinRequest.find({
       student: req.user._id
     }).populate("club");
@@ -138,6 +150,7 @@ exports.showDashboard = async (req, res) => {
 
     res.render("dashboard", {
       user: req.user,
+      isSystemAdminDashboard: false,
       userJoinRequests,
       userClubCreationRequests,
       memberClubs,
@@ -234,16 +247,7 @@ exports.submitClubCreationRequest = async (req, res) => {
 };
 
 exports.showClubCreationRequests = async (req, res) => {
-  try {
-    const requests = await ClubCreationRequest.find()
-      .populate("requestedBy")
-      .sort({ createdAt: -1 });
-
-    res.render("adminClubRequests", { requests });
-  } catch (error) {
-    console.error("error loading club creation requests", error);
-    res.status(500).send("Error loading club requests.");
-  }
+  return res.redirect("/dashboard");
 };
 
 exports.approveClubCreationRequest = async (req, res) => {
@@ -279,7 +283,7 @@ exports.approveClubCreationRequest = async (req, res) => {
     request.status = "approved";
     await request.save();
 
-    res.redirect("/admin/club-requests");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("error approving club creation request", error);
     res.status(500).send("Error approving club request.");
@@ -305,7 +309,7 @@ exports.rejectClubCreationRequest = async (req, res) => {
     request.status = "rejected";
     await request.save();
 
-    res.redirect("/admin/club-requests");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error("error rejecting club creation request", error);
     res.status(500).send("Error rejecting club request.");
@@ -443,3 +447,33 @@ exports.rejectJoinRequest = async (req, res) => {
   }
 };
 
+exports.deleteClub = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).send("Invalid club ID.");
+    }
+
+    const club = await Club.findById(req.params.id);
+
+    if (!club) {
+      return res.status(404).send("Club not found.");
+    }
+
+    const isCreator =
+      club.createdBy && club.createdBy.toString() === req.user._id.toString();
+
+    const isSystemAdmin = req.user.role === "systemAdmin";
+
+    if (!isCreator && !isSystemAdmin) {
+      return res.status(403).send("You are not allowed to delete this club.");
+    }
+
+    await JoinRequest.deleteMany({ club: club._id });
+    await Club.findByIdAndDelete(club._id);
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("error deleting club", error);
+    res.status(500).send("Error deleting club.");
+  }
+};

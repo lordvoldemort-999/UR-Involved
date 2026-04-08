@@ -1,4 +1,4 @@
-<%- include("layouts/secondary-header.ejs", { clubDetails: false, currentPage: "dashboard", currentUser: user.email}) -%>
+<%- include("layouts/secondary-header.ejs", { clubDetails: false, currentPage: "dashboard", currentUser: user.email }) -%>
 
 <nav class="breadcrumb-container" aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -45,56 +45,97 @@
     </div>
   </div>
 
-  <h2>Your clubs</h2>
-  <div class="club-container">
-    <% if (memberClubs && memberClubs.length > 0) { %>
-      <% memberClubs.forEach(club => { %>
-        <div class="dashboard-club-card">
-          <a href="/clubs/<%= club._id %>" class="club-card-link">
-            <img src="<%= club.logo %>" alt="Club logo" />
-            <p><%= club.name %></p>
-            <small>Member</small>
-          </a>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p>You are not a member of any clubs yet.</p>
-    <% } %>
-  </div>
+  <% if (isSystemAdminDashboard) { %>
+    <h2>Club creation requests</h2>
+    <div class="club-container mb-4">
+      <% if (clubRequests && clubRequests.length > 0) { %>
+        <% clubRequests.forEach(request => { %>
+          <div
+            class="dashboard-club-card"
+            style="width: 100%; height: auto; text-align: left; align-items: flex-start;"
+          >
+            <img src="<%= request.logo %>" alt="Club logo" />
 
-  <h2>Your join requests</h2>
-  <div class="club-container mb-4">
-    <% if (userJoinRequests && userJoinRequests.length > 0) { %>
-      <% userJoinRequests.forEach(request => { %>
-        <div class="dashboard-club-card">
-          <a href="/clubs/<%= request.club._id %>" class="club-card-link">
-            <img src="<%= request.club.logo %>" alt="Club logo">
-            <p><%= request.club.name %></p>
+            <p><strong>Proposed name:</strong> <%= request.proposedName %></p>
+            <p><strong>Description:</strong> <%= request.description %></p>
+            <p><strong>Category:</strong> <%= request.category %></p>
+            <p><strong>Contact email:</strong> <%= request.contactEmail %></p>
+            <p>
+              <strong>Submitted by:</strong>
+              <%= request.requestedBy ? request.requestedBy.email : "Unknown user" %>
+            </p>
             <small>Status: <%= request.status %></small>
-          </a>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p>You have not sent any join requests yet.</p>
-    <% } %>
-  </div>
 
-  <h2>Your club creation requests</h2>
-  <div class="club-container mb-4">
-    <% if (userClubCreationRequests && userClubCreationRequests.length > 0) { %>
-      <% userClubCreationRequests.forEach(request => { %>
-        <div class="dashboard-club-card">
-          <a href="#" class="club-card-link">
-            <img src="<%= request.logo %>" alt="Club logo">
-            <p><%= request.proposedName %></p>
-            <small>Status: <%= request.status %></small>
-          </a>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <p>You have not submitted any club creation requests yet.</p>
-    <% } %>
-  </div>
+            <% if (request.status === "pending") { %>
+              <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                <form action="/admin/club-requests/<%= request._id %>/approve" method="POST">
+                  <button type="submit" class="btn btn-success">Approve</button>
+                </form>
+
+                <form action="/admin/club-requests/<%= request._id %>/reject" method="POST">
+                  <button type="submit" class="btn btn-danger">Reject</button>
+                </form>
+              </div>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No club creation requests found.</p>
+      <% } %>
+    </div>
+
+  <% } else { %>
+    <h2>Your clubs</h2>
+    <div class="club-container">
+      <% if (memberClubs && memberClubs.length > 0) { %>
+        <% memberClubs.forEach(club => { %>
+          <div class="dashboard-club-card">
+            <a href="/clubs/<%= club._id %>" class="club-card-link">
+              <img src="<%= club.logo %>" alt="Club logo" />
+              <p><%= club.name %></p>
+              <small>Member</small>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>You are not a member of any clubs yet.</p>
+      <% } %>
+    </div>
+
+    <h2>Your join requests</h2>
+    <div class="club-container mb-4">
+      <% if (userJoinRequests && userJoinRequests.length > 0) { %>
+        <% userJoinRequests.forEach(request => { %>
+          <div class="dashboard-club-card">
+            <a href="/clubs/<%= request.club._id %>" class="club-card-link">
+              <img src="<%= request.club.logo %>" alt="Club logo">
+              <p><%= request.club.name %></p>
+              <small>Status: <%= request.status %></small>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>You have not sent any join requests yet.</p>
+      <% } %>
+    </div>
+
+    <h2>Your club creation requests</h2>
+    <div class="club-container mb-4">
+      <% if (userClubCreationRequests && userClubCreationRequests.length > 0) { %>
+        <% userClubCreationRequests.forEach(request => { %>
+          <div class="dashboard-club-card">
+            <a href="#" class="club-card-link">
+              <img src="<%= request.logo %>" alt="Club logo">
+              <p><%= request.proposedName %></p>
+              <small>Status: <%= request.status %></small>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>You have not submitted any club creation requests yet.</p>
+      <% } %>
+    </div>
+  <% } %>
 </div>
 
 <%- include("layouts/footer.ejs") -%>

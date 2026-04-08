@@ -67,28 +67,29 @@ async function seedDatabase() {
     await mongoose.connect("mongodb://127.0.0.1:27017/ur_involved");
     console.log("Connected to MongoDB");
 
-    await Club.deleteMany({});
-    console.log("Deleted existing clubs");
-
-    await User.deleteMany({});
-    console.log("Deleted existing users");
-
-    const hashedUsers = [];
+    // Ensure system admin accounts exist, but do not delete existing users
     for (const user of seedUsers) {
-      const hashedPassword = await bcrypt.hash(user.password, 10);
-      hashedUsers.push({
-        email: user.email.toLowerCase(),
-        password: hashedPassword,
-        role: user.role
-      });
+      const existingUser = await User.findOne({ email: user.email.toLowerCase() });
+
+      if (!existingUser) {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+
+        await User.create({
+          email: user.email.toLowerCase(),
+          password: hashedPassword,
+          role: user.role
+        });
+
+        console.log(`Inserted user: ${user.email}`);
+      } else {
+        console.log(`User already exists: ${user.email}`);
+      }
     }
 
-    const insertedUsers = await User.insertMany(hashedUsers);
-    console.log("Inserted users");
+    const systemAdmin = await User.findOne({ email: "rob@uregina.ca" });
 
-    const systemAdmin = insertedUsers.find(
-      user => user.email === "rob@uregina.ca"
-    );
+    await Club.deleteMany({});
+    console.log("Deleted existing clubs");
 
     const clubsWithOwnership = seedClubs.map(club => ({
       ...club,

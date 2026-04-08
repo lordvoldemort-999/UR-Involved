@@ -2,14 +2,12 @@
 
 <div class="club-detail-page">
 
-  <!-- SUCCESS MESSAGE -->
   <% if (joined && joined.toString() === "true") { %>
     <div class="alert success">
       Request sent successfully!
     </div>
   <% } %>
 
-  <!-- ALREADY REQUESTED -->
   <% if (existingJoinRequest) { %>
     <div class="alert warning">
       You already have a pending join request.
@@ -23,13 +21,12 @@
   <div class="main">
     <div class="club-content">
 
-      <!-- LEFT SIDE -->
       <div class="club-card">
 
         <% if (club.logo) { %>
-          <img src="<%= club.logo %>" class="club-logo-img" />
+          <img src="<%= club.logo %>" class="club-logo-img" alt="<%= club.name %> logo" />
         <% } else { %>
-          <img src="/images/URegina_Coat_of_Arms.svg" class="club-logo-img" />
+          <img src="/images/URegina_Coat_of_Arms.svg" class="club-logo-img" alt="Default club logo" />
         <% } %>
 
         <h3 class="club-name"><%= club.name %></h3>
@@ -71,12 +68,25 @@
           <p class="contact-email"><%= club.contactEmail %></p>
         <% } %>
 
+        <% if (currentUser && (
+          currentUser.role === "systemAdmin" ||
+          (club.createdBy && club.createdBy.toString() === currentUser._id.toString())
+        )) { %>
+          <form action="/clubs/<%= club._id %>/delete" method="POST" style="margin-top: 15px;">
+            <button
+              type="submit"
+              class="btn btn-danger"
+              onclick="return confirm('Are you sure you want to delete this club?');"
+            >
+              Delete Club
+            </button>
+          </form>
+        <% } %>
+
       </div>
 
-      <!-- RIGHT SIDE -->
       <div class="right-content">
 
-        <!-- TABS -->
         <div class="tabs">
           <button class="tab active" onclick="showTab('events', this)">Events</button>
           <button class="tab" onclick="showTab('about', this)">About</button>
@@ -84,7 +94,6 @@
           <button class="tab" onclick="showTab('gallery', this)">Gallery</button>
         </div>
 
-        <!-- EVENTS -->
         <div id="events" class="tab-content active">
 
           <h3>Upcoming Events</h3>
@@ -121,7 +130,6 @@
 
         </div>
 
-        <!-- ABOUT -->
         <div id="about" class="tab-content">
 
           <div class="empty-box">
@@ -136,14 +144,12 @@
 
         </div>
 
-        <!-- MEMBERS -->
         <div id="members" class="tab-content">
           <div class="empty-box">
             <p>Nothing to see (yet!)</p>
           </div>
         </div>
 
-        <!-- GALLERY -->
         <div id="gallery" class="tab-content">
           <div class="empty-box">
             <p>Nothing to see (yet!)</p>
@@ -157,8 +163,9 @@
 
   <% } %>
 
-  <%- include("layouts/footer") -%>
 </div>
+
+<%- include("layouts/footer") -%>
 
 <script>
 function showTab(tabId, btn) {
