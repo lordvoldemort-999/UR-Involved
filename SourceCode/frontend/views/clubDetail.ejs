@@ -2,17 +2,15 @@
 
 <div class="club-detail-page">
 
-  <% if (joined && joined.toString() === "true") { %>
-    <div class="alert success">
-      Request sent successfully!
-    </div>
-  <% } %>
-
-  <% if (existingJoinRequest) { %>
-    <div class="alert warning">
-      You already have a pending join request.
-    </div>
-  <% } %>
+  <% if (existingJoinRequest && existingJoinRequest.status === "pending") { %>
+  <div class="alert warning">
+    Your join request is pending.
+  </div>
+<% } else if (existingJoinRequest && existingJoinRequest.status === "rejected") { %>
+  <div class="alert warning">
+    Your join request was rejected.
+  </div>
+<% } %>
 
   <% if (!club) { %>
     <p style="padding:40px;">Club not found</p>
@@ -31,11 +29,7 @@
 
         <h3 class="club-name"><%= club.name %></h3>
 
-        <p class="club-description">
-          <%= club.description || "No description available." %>
-        </p>
-
-        <p class="created-date">
+        <p class="club-created-date">
           Created:
           <%= club.createdAt
             ? new Date(club.createdAt).toLocaleDateString()
@@ -45,16 +39,19 @@
         <div class="club-actions">
 
           <% if (!currentUser || currentUser.role !== "systemAdmin") { %>
-            <% if (existingJoinRequest) { %>
-              <button class="join-btn" disabled>Request Pending</button>
+            <% if (alreadyMember) { %>
+              <button class="join-btn" disabled>Club Member</button>
 
-            <% } else if (joined === "true") { %>
-              <button class="join-btn" disabled>Request Sent</button>
+            <% } else if (existingJoinRequest && existingJoinRequest.status === "pending") { %>
+              <button class="join-btn" disabled>Pending</button>
+
+            <% } else if (existingJoinRequest && existingJoinRequest.status === "rejected") { %>
+              <button class="join-btn" disabled>Rejected</button>
 
             <% } else { %>
-              <a href="/clubs/<%= club._id %>/join" class="join-btn">
-                Request to Join
-              </a>
+              <form action="/clubs/<%= club._id %>/join" method="POST" style="display:inline;">
+                <button type="submit" class="join-btn">Request to Join</button>
+              </form>
             <% } %>
           <% } %>
 
@@ -64,16 +61,19 @@
             </a>
           <% } %>
 
+          <% if (club.website) { %>
+            <a href="<%= club.website %>" target="_blank" class="contact-btn">
+              Website
+            </a>
+          <% } %>
+
         </div>
 
         <% if (club.contactEmail) { %>
           <p class="contact-email"><%= club.contactEmail %></p>
         <% } %>
 
-        <% if (currentUser && (
-          currentUser.role === "systemAdmin" ||
-          (club.createdBy && club.createdBy.toString() === currentUser._id.toString())
-        )) { %>
+        <% if (currentUser && (isOwner || isSystemAdmin)) { %>
           <form action="/clubs/<%= club._id %>/delete" method="POST" style="margin-top: 15px;">
             <button
               type="submit"
@@ -92,11 +92,12 @@
         <div class="tabs">
           <button class="tab active" onclick="showTab('about', this)">About</button>
           <button class="tab" onclick="showTab('events', this)">Events</button>
-          <button class="tab" onclick="showTab('members', this)">Members</button>
-          <% if (currentUser && (
-            currentUser.role === "systemAdmin" ||
-            (club.createdBy && club.createdBy.toString() === currentUser._id.toString())
-          )) { %>
+          
+          <% if (currentUser && (alreadyMember || isOwner || isSystemAdmin)) { %>
+            <button class="tab" onclick="showTab('members', this)">Members</button>
+          <% } %>
+
+          <% if (currentUser && (isOwner || isSystemAdmin)) { %>
             <button class="tab" onclick="showTab('joinRequests', this)">Join Requests</button>
           <% } %>
         </div>
@@ -151,34 +152,33 @@
 
         </div>
 
-        <div id="members" class="tab-content">
-          <div class="empty-box" style="align-items: flex-start; text-align: left; max-width: 100%;">
-            <h3 style="color: #00c800; margin-bottom: 20px;">Club Members</h3>
-            <% if (club.members && club.members.length > 0) { %>
-              <ul class="member-list" style="list-style: none; padding: 0; width: 100%;">
-                <% club.members.forEach(member => { %>
-                  <li class="member-item" style="background: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd;">
-                    <span class="member-email"><strong><%= member.email %></strong></span>
-                    
-                    <% if (isOwner || isSystemAdmin) { %>
-                      <form action="/clubs/<%= club._id %>/members/<%= member._id %>/remove" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove this member?');">
-                        <button type="submit" style="padding: 8px 16px; font-size: 0.9rem; background-color: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">Remove</button>
-                      </form>
-                    <% } %>
-                  </li>
-                <% }) %>
-              </ul>
-            <% } else { %>
-              <p>No members yet.</p>
-            <% } %>
+        <% if (currentUser && (alreadyMember || isOwner || isSystemAdmin)) { %>
+          <div id="members" class="tab-content">
+            <div class="empty-box" style="align-items: flex-start; text-align: left; max-width: 100%;">
+              <h3 style="color: #00c800; margin-bottom: 20px;">Club Members</h3>
+              <% if (club.members && club.members.length > 0) { %>
+                <ul class="member-list" style="list-style: none; padding: 0; width: 100%;">
+                  <% club.members.forEach(member => { %>
+                    <li class="member-item" style="background: #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd;">
+                      <span class="member-email"><strong><%= member.email %></strong></span>
+                      
+                      <% if (isOwner || isSystemAdmin) { %>
+                        <form action="/clubs/<%= club._id %>/members/<%= member._id %>/remove" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to remove this member?');">
+                          <button type="submit" style="padding: 8px 16px; font-size: 0.9rem; background-color: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">Remove</button>
+                        </form>
+                      <% } %>
+                    </li>
+                  <% }) %>
+                </ul>
+              <% } else { %>
+                <p>No members yet.</p>
+              <% } %>
+            </div>
           </div>
-        </div>
+        <% } %>
 
-        <div id="joinRequests" class="tab-content">
-          <% if (currentUser && (
-            currentUser.role === "systemAdmin" ||
-            (club.createdBy && club.createdBy.toString() === currentUser._id.toString())
-          )) { %>
+        <% if (currentUser && (isOwner || isSystemAdmin)) { %>
+          <div id="joinRequests" class="tab-content">
             <div class="empty-box" style="align-items: flex-start; text-align: left; max-width: 100%;">
               <h3 style="color: #00c800; margin-bottom: 20px;">Pending Join Requests</h3>
 
@@ -202,8 +202,8 @@
                 <p>There are currently no join requests.</p>
               <% } %>
             </div>
-          <% } %>
-        </div>
+          </div>
+        <% } %>
       </div>
 
     </div>

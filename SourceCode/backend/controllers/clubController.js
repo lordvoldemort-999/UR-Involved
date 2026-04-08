@@ -83,31 +83,41 @@ exports.showCreateClubPage = (req, res) => {
 exports.showClubDetails = async (req, res) => {
   try {
     const clubId = req.params.id;
-    
+
     if (!mongoose.Types.ObjectId.isValid(clubId)) {
       return res.status(400).send("Invalid club ID");
     }
 
-    const club = await Club.findOne({
-      _id: clubId,
-      approved: true
-    }).populate("members", "email");
-
-    if (!club) {
-      return res.status(404).send("Club not found.");
-    }
+    const club = await Club.findOne({ _id: clubId, approved: true });
+    if (!club) return res.status(404).send("Club not found.");
 
     const upcoming = [];
     const past = [];
     let joinRequests = [];
-
-    const isOwner = req.user && club.createdBy && club.createdBy.toString() === req.user._id.toString();
-    const isSystemAdmin = req.user && req.user.role === "systemAdmin";
+    let existingJoinRequest = null;
+    let alreadyMember = false;
+    let isOwner = false;
+    let isSystemAdmin = false;
 
     if (req.user) {
-      const isAdmin =
-        club.admins &&
-        club.admins.some(adminId => adminId.toString() === req.user._id.toString());
+      alreadyMember = club.members.some(m => m.toString() === req.user._id.toString());
+      isOwner = club.createdBy && club.createdBy.toString() === req.user._id.toString();
+      isSystemAdmin = req.user.role === "systemAdmin";
+      const isAdmin = club.admins && club.admins.some(a => a.toString() === req.user._id.toString());
+
+      // If they have permission (Member, Owner, or System Admin), populate the emails
+      if (alreadyMember || isOwner || isSystemAdmin) {
+        await club.populate("members", "email");
+      } else {
+        // If they don't have permission, we empty the members array 
+        // so the EJS "No members yet" logic works safely
+        club.members = []; 
+      }
+
+      existingJoinRequest = await JoinRequest.findOne({
+        student: req.user._id,
+        club: club._id
+      }).sort({ createdAt: -1 });
 
       if (isOwner || isAdmin || isSystemAdmin) {
         joinRequests = await JoinRequest.find({
@@ -115,18 +125,20 @@ exports.showClubDetails = async (req, res) => {
           status: "pending"
         }).populate("student");
       }
+    } else {
+      // Not logged in? They definitely can't see members
+      club.members = [];
     }
-
-    const joined = req.query.joined;
 
     res.render("clubDetail", {
       club,
       upcoming,
       past,
-      joined, 
-      existingJoinRequest: req.query.existingJoinRequest === "true",
       currentPage: "overview",
       joinRequests,
+      existingJoinRequest,
+      alreadyMember,
+      joined: req.query.joined,
       isOwner,
       isSystemAdmin
     });
@@ -160,8 +172,9 @@ exports.showDashboard = async (req, res) => {
     }).populate("club");
 
     const userClubCreationRequests = await ClubCreationRequest.find({
-      requestedBy: req.user._id
-    });
+      requestedBy: req.user._id,
+      status: { $in: ["pending", "rejected"] }
+    }).sort({ createdAt: -1 });
 
     const memberClubs = await Club.find({
       members: req.user._id
@@ -212,7 +225,7 @@ exports.submitJoinRequest = async (req, res) => {
     );
 
     if (alreadyMember) {
-      return res.status(400).send("You are already a member of this club.");
+      return res.redirect(`/clubs/${club._id}`);
     }
 
     const existingRequest = await JoinRequest.findOne({
@@ -222,18 +235,19 @@ exports.submitJoinRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.redirect(`/clubs/${club._id}?existingJoinRequest=true`);
+      return res.redirect(`/clubs/${club._id}`);
     }
 
     const joinRequest = new JoinRequest({
       student: req.user._id,
       club: club._id,
-      message: req.body.message || ""
+      message: "",
+      status: "pending"
     });
 
     await joinRequest.save();
 
-    res.redirect(`/clubs/${club._id}?joined=true`);
+    res.redirect(`/clubs/${club._id}`);
   } catch (error) {
     console.error("error submitting join request", error);
     res.status(500).send("Error submitting join request.");
