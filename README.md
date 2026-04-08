@@ -106,3 +106,27 @@ The MVP includes the following features:
 | Harleen Kaur | 200530299 | hkh549@uregina.ca | Frontend / UX / UI |
 | Abraham Omoregie | 200507536 | aoo988@uregina.ca | Frontend / UX / UI |
 | Luka Dundjerovic | 200494589 | ldr198@uregina.ca | Backend |
+
+---
+
+## Installation
+
+- Clone the repository:
+  ```
+   git clone www.github.com/RobertCalinescu/UR-Involved
+  ```
+- Navigate to the project folder: ` cd ur-involved`
+- Install dependencies: `npm i`
+- Seed the database:
+  ```
+  cd SourceCode/database
+  ```
+  ```
+  node seedClub.js
+  ```
+- Navigate to the backend:
+  ```
+  cd ../backend
+  ```
+- Start the app: `node app.js`
+- Open `localhost:3000` in your browser and your're done.
