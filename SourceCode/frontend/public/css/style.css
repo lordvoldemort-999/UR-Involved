@@ -169,17 +169,14 @@ h2 {
   flex-direction: row;
   gap: 24px;
 }
-
-/* CLUB CARD */
 .club-card {
   width: 230px;
   border-radius: 25px;
   background: var(--light-bg);
   padding: 20px;
   text-align: center;
-
-  height: auto;        
-  min-height: 229px;   
+  min-height: 229px;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-card img {
@@ -484,15 +481,6 @@ h2 {
   font-family: "Oswald", sans-serif;
 }
 
-/* LEFT CARD */
-.club-card {
-  width: 230px;
-  border-radius: 25px;
-  background: var(--light-bg);
-  padding: 20px;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-}
 
 .club-logo {
   width: 90px;
@@ -1021,17 +1009,8 @@ a.hero-btn-box:hover {
   transform: rotate(90deg); 
 }
 
-.tab-content {
-  display: none;
-}
 
-.tab-content.active {
-  display: block;
-}
 
-/* ABOUT CARD */
-/* ABOUT CARD */
-/* ABOUT CARD */
 .about-card {
   font-size: 21px;
   border-radius: 30px;
