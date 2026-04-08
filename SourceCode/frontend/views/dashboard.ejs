@@ -152,7 +152,15 @@
                 <img src="<%= club.logo %>" alt="Club logo" />
                 <p><%= club.name %></p>
 
-                <% if (club.createdBy && club.createdBy.toString() === user._id.toString()) { %>
+                <%
+                  const createdById = club.createdBy && club.createdBy._id
+                    ? club.createdBy._id.toString()
+                    : club.createdBy
+                      ? club.createdBy.toString()
+                      : null;
+                %>
+
+                <% if (createdById && createdById === user._id.toString()) { %>
                   <small>Club Creator</small>
                 <% } else if (club.admins && club.admins.some(adminId => adminId.toString() === user._id.toString())) { %>
                   <small>Admin</small>

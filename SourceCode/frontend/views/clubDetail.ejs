@@ -145,9 +145,16 @@
             <p><%= club.description || "No description available." %></p>
           </div>
 
+          <!-- Preserved from Main Branch -->
           <div class="empty-box" style="margin-top: 20px;">
             <h4>Category</h4>
             <p><%= club.category || "Not specified" %></p>
+          </div>
+
+          <!-- Preserved from Main Branch -->
+          <div class="empty-box" style="margin-top: 20px;">
+            <h4>Club Creator</h4>
+            <p><%= club.createdBy && club.createdBy.email ? club.createdBy.email : "Not available" %></p>
           </div>
 
         </div>

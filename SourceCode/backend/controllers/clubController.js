@@ -88,7 +88,8 @@ exports.showClubDetails = async (req, res) => {
       return res.status(400).send("Invalid club ID");
     }
 
-    const club = await Club.findOne({ _id: clubId, approved: true });
+    // 1. Fetch club info and owner's email (Static Populate from main branch)
+    const club = await Club.findOne({ _id: clubId, approved: true }).populate("createdBy", "email");
     if (!club) return res.status(404).send("Club not found.");
 
     const upcoming = [];
@@ -101,11 +102,14 @@ exports.showClubDetails = async (req, res) => {
 
     if (req.user) {
       alreadyMember = club.members.some(m => m.toString() === req.user._id.toString());
-      isOwner = club.createdBy && club.createdBy.toString() === req.user._id.toString();
+      
+      // FIXED: Use ._id because createdBy is now an object due to .populate()
+      isOwner = club.createdBy && club.createdBy._id.toString() === req.user._id.toString();
+      
       isSystemAdmin = req.user.role === "systemAdmin";
       const isAdmin = club.admins && club.admins.some(a => a.toString() === req.user._id.toString());
 
-      // If they have permission (Member, Owner, or System Admin), populate the emails
+      // 2. Conditional Member Visibility (Security Check)
       if (alreadyMember || isOwner || isSystemAdmin) {
         await club.populate("members", "email");
       } else {
@@ -256,11 +260,9 @@ exports.submitJoinRequest = async (req, res) => {
 
 exports.submitClubCreationRequest = async (req, res) => {
   try {
-    console.log("req.file:", req.file);
-    console.log("req.body:", req.body);
     
-    const { proposedName, description, category, contactEmail } = req.body;
-    if (!proposedName || !description || !category || !contactEmail) {
+    const { proposedName, description, category, contactEmail, website } = req.body;
+    if (!proposedName || !description || !category || !contactEmail || !website) {
       return res.status(400).send("All fields are required.");
     }
 
@@ -274,6 +276,7 @@ exports.submitClubCreationRequest = async (req, res) => {
       description: description.trim(),
       category: category.trim(),
       contactEmail: contactEmail.trim().toLowerCase(),
+      website: website.trim(),
       logo: logoPath
     });
 
@@ -311,6 +314,7 @@ exports.approveClubCreationRequest = async (req, res) => {
       description: request.description,
       category: request.category,
       contactEmail: request.contactEmail,
+      website: request.website,
       logo: request.logo || "/images/University_of_Regina_Logo.jpg",
       approved: true,
       createdBy: request.requestedBy,

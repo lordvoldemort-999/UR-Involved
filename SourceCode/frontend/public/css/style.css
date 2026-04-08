@@ -1,21 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-/* TODO: Change color scheme of body*/
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* ROOT COLORS */
+:root {
+  --primary: #004f2e;   /* U of R green */
+  --accent: #ffc82e;    /* U of R yellow */
+  --black: #000000;
+  --white: #ffffff;
+  --light-bg: #f8f9fa;
+}
+
+/* BODY */
 body {
-  font-family: "Poppins";
+  font-family: "Poppins", sans-serif;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 24px;
 }
 
+/* HEADINGS */
+h1,
+h2 {
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
+}
+
+/* MAIN LAYOUT */
 .main {
   grid-column: 3/11;
 }
 
-h1,
-h2 {
-  color: rgba(4, 172, 7, 1);
-}
-
+/* HEADER */
 .header {
   height: 60vh;
   min-height: 300px;
@@ -34,8 +48,10 @@ h2 {
   background-position: center;
 }
 
+/* HEADER TEXT */
 .header-main h2 {
-  color: #FFF3B0;
+  font-family: "Oswald", sans-serif;
+  color: var(--accent);
   font-size: 28px;
   line-height: 1.1;
   margin: 0;
@@ -67,10 +83,15 @@ h2 {
   height: 100%;
 }
 
+/* NAV BUTTONS */
 .header-nav-main a {
   margin: 0;
   width: 260px;
+  font-family: "Oswald", sans-serif;
+  color: var(--white);
 }
+
+/* INTRO SECTION */
 .intro {
   display: flex;
   align-items: center;
@@ -87,13 +108,14 @@ h2 {
   flex: 1;
 }
 
+/* SEARCH BAR */
 .search-bar {
   background-color: #e0e0e0;
   border-radius: 50px;
   padding: 0.75rem 1.25rem;
   width: 100%;
   max-width: 1003px;
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
 }
 
 .search-bar:focus-within {
@@ -103,24 +125,27 @@ h2 {
 .search-bar i {
   font-size: 1.5rem;
   margin-right: 0.75rem;
-  color: #000;
+  color: var(--black);
 }
 
 .search-bar input {
   background: transparent;
   font-size: 1.25rem;
+  font-family: "Poppins", sans-serif;
+  color: var(--black);
 }
 
+/* SORT CARD */
 .sort-card {
   grid-column: 3/5;
   width: 100%;
   max-width: 233px;
   height: auto;
 
-  background: rgba(217, 217, 217, 1);
-
+  background: var(--light-bg);
   border-radius: 30px;
   padding: 2rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .sort-card ul {
@@ -130,6 +155,7 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-group {
@@ -140,10 +166,11 @@ h2 {
   gap: 24px;
 }
 
+/* CLUB CARD */
 .club-card {
   width: 230px;
   border-radius: 25px;
-  background: #e0e0e0;
+  background: var(--light-bg);
   padding: 20px;
   text-align: center;
 
@@ -163,23 +190,28 @@ h2 {
 
 .club-card p {
   font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: var(--black);
 }
 
+/* CALL TO ACTION */
 .call-to-action {
   margin-top: 2rem;
-  background: rgba(217, 217, 217, 1);
+  background: var(--light-bg);
   padding: 3rem;
   border-radius: 30px;
   max-height: 290px;
   display: flex;
   flex-direction: column;
   text-align: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .call-to-action button {
   height: 38px;
   max-width: 235px;
   margin: auto;
+  font-family: "Poppins", sans-serif;
 }
 
 #first {
@@ -190,16 +222,18 @@ h2 {
   grid-column: 7/11;
 }
 
+/* FOOTER */
 .footer {
   grid-column: 1/13;
   height: 250px;
-  background-color: #004f2e;
-  color: white;
+  background-color: var(--primary);
+  color: var(--white);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   gap: 173px;
   padding: 3em;
+  font-family: "Poppins", sans-serif;
 }
 
 .auth-links {
@@ -215,6 +249,7 @@ h2 {
   padding: 6px 14px;
   min-width: 90px;
   height: auto;
+  font-family: "Poppins", sans-serif;
 }
 
 .logout-form {
@@ -225,6 +260,7 @@ h2 {
   height: 48px !important;
   max-width: 220px;
   font-size: 0.95rem;
+  font-family: "Oswald", sans-serif;
 }
 
 .club-card-link {
@@ -233,24 +269,27 @@ h2 {
   flex: 0 0 calc((100% / 3) - 16px);
 }
 
+/* CLUB CARD SMALL TEXT */
 .club-card small {
   display: block;
-  color: #00643c;
+  color: var(--primary);
   font-weight: 600;
   margin-top: 0.5rem;
+  font-family: "Poppins", sans-serif;
 }
 
+/* CREATE CLUB FORM */
 .create-club-form {
   grid-column: 3/11;
   max-height: 1255px;
-  background: rgba(242, 227, 227, 1);
+  background: var(--light-bg);
   border-radius: 30px;
   padding: 3rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .dashboard-btn-container {
   position: absolute;   
-
   top: 15px;            
   right: 20px;          
   display: flex;
@@ -258,18 +297,21 @@ h2 {
   justify-content: center;
 }
 
+/* DROPDOWN ARROW */
 .dropdown-toggle::after {
-  border-top-color: #FFD84D;
+  border-top-color: var(--accent);
   width: 10px;
   height: 5px;
 }
 
-
+/* BREADCRUMB */
 .breadcrumb-container {
   grid-column: 3/11;
   padding: 3px;
+  font-family: "Poppins", sans-serif;
 }
 
+/* PROFILE CARD */
 .profile-card {
   padding: 1rem;
   display: flex;
@@ -280,6 +322,7 @@ h2 {
   height: 360px;
   width: fit-content;
   max-width: 1005px;
+  font-family: "Poppins", sans-serif;
 }
 
 .profile-image {
@@ -297,23 +340,29 @@ h2 {
   gap: 8px;
 }
 
+/* PROFILE TEXT */
 .profile-info h3 {
+  font-family: "Oswald", sans-serif;
   font-size: 22px;
   margin: 0;
-  color: #000;
+  color: var(--primary);
 }
 
 .profile-info p {
   margin: 0;
-  color: #333;
+  color: var(--black);
   line-height: 1.4;
   font-size: 18px;
+  font-family: "Poppins", sans-serif;
 }
 
+/* SETTINGS ICON */
 .settings-icon {
   font-size: 24px;
-  color: #00c800;
+  color: var(--primary);
 }
+
+/* HEADER ROW */
 .header-row {
   display: flex;
   align-items: center;
@@ -321,12 +370,14 @@ h2 {
 }
 
 .header-row h2 {
-  color: #00c800; 
+  font-family: "Oswald", sans-serif;
+  color: var(--primary); 
   font-size: 24px;
   margin: 0;
   font-weight: 500;
 }
 
+/* CLUB CONTAINER */
 .club-container {
   grid-column: 3/11;
   display: flex;
@@ -335,17 +386,19 @@ h2 {
   gap: 24px;
 }
 
+/* DASHBOARD CLUB CARD */
 .dashboard-club-card {
   flex: 0 0 calc((100% / 4) - 24px);
   width: 234px;
   height: 229px;
-  background: rgba(217, 217, 217, 1);
+  background: var(--light-bg);
   border-radius: 30px;
   padding: 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .dashboard-club-card img {
@@ -360,17 +413,19 @@ h2 {
 
 .dashboard-club-card small {
   display: block;
-  color: #00643c;
+  color: var(--primary);
   font-weight: 600;
   margin-top: 0.5rem;
+  font-family: "Poppins", sans-serif;
 }
 
+/* EVENT CARD */
 .dashboard-event-card {
   width: 233px;
   height: 400px;
 }
 
-
+/* NAV */
 .nav-container {
   grid-column: 6/10;
   margin-top: auto;
@@ -378,17 +433,19 @@ h2 {
 }
 
 .nav-pills .nav-link {
-    color: #ffffff; 
-    transition: all 0.2s ease-in-out;
+  color: var(--white); 
+  font-family: "Poppins", sans-serif;
+  transition: all 0.2s ease-in-out;
 }
 
 .nav-pills .nav-link:hover,
 .nav-pills .nav-link.active, 
 .nav-pills .show > .nav-link {
-    background-color: #e0d20e !important;
-    color: #000000 !important;
+  background-color: var(--accent) !important;
+  color: var(--black) !important;
 }
 
+/* CLUB CONTENT */
 .club-content {
   display: flex;
   align-items: flex-start;
@@ -406,25 +463,28 @@ h2 {
   object-fit: cover;
 }
 
+/* BACK BUTTON */
 .back-btn {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: #e0d20e;
+  background: var(--accent);
   padding: 10px 15px;
   font-weight: 500;
   text-decoration: none;
-  color: black;
+  color: var(--black);
   border-radius: 6px;
+  font-family: "Oswald", sans-serif;
 }
 
 /* LEFT CARD */
 .club-card {
   width: 230px;
   border-radius: 25px;
-  background: #e0e0e0;
+  background: var(--light-bg);
   padding: 20px;
   text-align: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-logo {
@@ -437,13 +497,15 @@ h2 {
 
 .club-description {
   font-size: 13px;
-  color: #333;
+  color: var(--black);
   margin-bottom: 15px;
+  font-family: "Poppins", sans-serif;
 }
 
 .created-date {
   font-size: 11px;
   color: #777;
+  font-family: "Poppins", sans-serif;
 }
 
 /* EVENTS */
@@ -453,7 +515,8 @@ h2 {
 }
 
 .section-title {
-  color: #00c800;
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
   font-size: 22px;
   font-weight: 600;
   margin: 25px 0 15px 0;
@@ -464,9 +527,8 @@ h2 {
   grid-template-columns: repeat(3, 190px);
   gap: 25px;
 }
-
 .event-card {
-  background: #f0f0f0;
+  background: var(--light-bg);
   border-radius: 20px;
   overflow: hidden;
   width: 190px;
@@ -475,6 +537,7 @@ h2 {
   flex-direction: column;
   transition: all 0.2s ease;
   cursor: pointer;
+  font-family: "Poppins", sans-serif;
 }
 
 .event-card:hover {
@@ -493,15 +556,18 @@ h2 {
 }
 
 .event-info h4 {
+  font-family: "Oswald", sans-serif;
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 6px;
+  color: var(--primary);
 }
 
 .event-info p {
   font-size: 12px;
   margin: 3px 0;
-  color: #444;
+  color: var(--black);
+  font-family: "Poppins", sans-serif;
 }
 
 .event-card.empty {
@@ -513,6 +579,7 @@ h2 {
 .no-events {
   font-size: 14px;
   color: #888;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-detail-page {
@@ -549,14 +616,16 @@ h2 {
   object-fit: cover;
 }
 
+/* CLUB CARD */
 .club-detail-page .club-card {
   width: 260px;
   min-width: 260px;
-  background: #e0e0e0;
+  background: var(--light-bg);
   border-radius: 25px;
   padding: 20px;
   text-align: center;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-detail-page .club-logo {
@@ -567,32 +636,37 @@ h2 {
   margin: 0 auto 15px;
 }
 
+/* CLUB NAME */
 .club-detail-page .club-name {
-  color: #00c800;
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
   font-size: 22px;
   margin-bottom: 10px;
 }
 
+/* DESCRIPTION */
 .club-detail-page .club-description {
   font-size: 13px;
-  color: #333;
+  color: var(--black);
   margin-bottom: 15px;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-detail-page .created-date {
   font-size: 11px;
   color: #777;
+  font-family: "Poppins", sans-serif;
 }
 
-
-
+/* EVENTS AREA */
 .club-detail-page .events-area {
   flex: 1;
   padding-left: 0;
 }
 
 .club-detail-page .section-title {
-  color: #00c800;
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
   font-size: 22px;
   font-weight: 600;
   margin: 25px 0 15px;
@@ -605,13 +679,14 @@ h2 {
 }
 
 .club-detail-page .event-card {
-  background: #f0f0f0;
+  background: var(--light-bg);
   border-radius: 20px;
   overflow: hidden;
   width: 190px;
   height: 200px;
   display: flex;
   flex-direction: column;
+  font-family: "Poppins", sans-serif;
 }
 
 .club-detail-page .event-image {
@@ -625,15 +700,18 @@ h2 {
 }
 
 .club-detail-page .event-info h4 {
+  font-family: "Oswald", sans-serif;
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 6px;
+  color: var(--primary);
 }
 
 .club-detail-page .event-info p {
   font-size: 12px;
   margin: 3px 0;
-  color: #444;
+  color: var(--black);
+  font-family: "Poppins", sans-serif;
 }
 
 .club-detail-page .footer {
@@ -644,16 +722,20 @@ h2 {
   position: static;
   left: auto;
 }
+
 body {
   overflow-x: hidden;
 }
+
 .footer {
   margin-top: 0 !important;
 }
+
 .event-grid {
   justify-content: center;
 }
 
+/* JOIN PAGE */
 .join-page {
   grid-column: 3 / 11;  
   display: flex;
@@ -663,27 +745,31 @@ body {
 }
 
 .join-container {
-  background: white;
+  background: var(--white);
   padding: 30px;
   border-radius: 12px;
   width: 400px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: "Poppins", sans-serif;
 }
 
 .join-title {
-  color: #008a2e;
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
   margin-bottom: 10px;
 }
 
 .join-subtext {
   color: #666;
   margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
 }
 
 .join-label {
   font-weight: 500;
   display: block;
   margin-bottom: 5px;
+  font-family: "Poppins", sans-serif;
 }
 
 .join-textarea {
@@ -693,49 +779,60 @@ body {
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
 }
 
+/* JOIN BUTTON */
 a.join-btn {
   display: inline-block;
-  background: #e0d20e;
-  color: black !important;
+  background: var(--accent);
+  color: var(--black) !important;
   padding: 12px 24px;
   border-radius: 12px;
   text-decoration: none !important;
   font-weight: 600;
   transition: 0.2s ease;
+  font-family: "Oswald", sans-serif;
 }
 
 a.join-btn:hover {
-  background: #c8b800;   
+  background: #e6b800;   
 }
 
 a.join-btn:visited,
 a.join-btn:active {
-  color: black !important;
+  color: var(--black) !important;
 }
 
+/* CANCEL */
 .cancel-btn {
   text-decoration: none;
   color: #666;
+  font-family: "Poppins", sans-serif;
 }
 
+/* SUBMIT BUTTON */
 .join-submit-btn {
-  background: #008a2e;
-  color: white;
+  background: var(--primary);
+  color: var(--white);
   border: none;
   padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
+  font-family: "Oswald", sans-serif;
 }
 
 .join-submit-btn:hover {
-  background: #006d24;
+  background: #003d24;
 }
+
+/* CENTERING */
 .join-page,
 .join-container {
   justify-self: center;
 }
+
+/* ACTION BUTTONS */
 .club-actions {
   display: flex;
   justify-content: center;
@@ -744,17 +841,19 @@ a.join-btn:active {
   flex-wrap: wrap;
 }
 
+/* CONTACT BUTTON */
 .contact-btn {
-  background: #e0d20e;  
-  color: black;
+  background: var(--accent);  
+  color: var(--black);
   padding: 10px 18px;
   border-radius: 25px;
   text-decoration: none;
   font-weight: 600;
+  font-family: "Oswald", sans-serif;
 }
 
 .contact-btn:hover {
-  background: #c8b800;   
+  background: #e6b800;   
 }
 
 .contact-email {
@@ -762,6 +861,7 @@ a.join-btn:active {
   color: #666;
   margin-top: 8px;
   text-align: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .tab-content {
@@ -786,28 +886,31 @@ a.join-btn:active {
   flex-shrink: 0;
 }
 
+/* TAB BUTTONS */
 .tab {
   padding: 8px 18px;
   border: none;
-  background: #f5f5f5;
+  background: var(--light-bg);
   border-radius: 20px;
   cursor: pointer;
   font-weight: 500;
-  color: #333;
+  color: var(--black);
   transition: 0.2s ease;
+  font-family: "Oswald", sans-serif;
 }
 
-
 .tab:hover {
-  background: #e0d20e;
-  color: black;
+  background: var(--accent);
+  color: var(--black);
 }
 
 .tab.active {
-  background: #e0d20e;
-  color: black;
+  background: var(--accent);
+  color: var(--black);
   font-weight: 600;
 }
+
+/* EMPTY STATE */
 .empty-box {
   display: flex;
   flex-direction: column;   
@@ -821,10 +924,10 @@ a.join-btn:active {
   margin: 20px auto;
 
   padding: 30px;
-  background: #f5f7fa;
+  background: var(--light-bg);
   border-radius: 20px;
+  font-family: "Poppins", sans-serif;
 }
-
 
 a.hero-btn-box {
   display: flex;
@@ -834,18 +937,18 @@ a.hero-btn-box {
   width: 220px; 
   padding: 8px 12px;
 
-  background: #ffffff !important;
-  color: #000 !important;
+  background: var(--white) !important;
+  color: var(--black) !important;
 
   text-decoration: none;
   font-weight: 700;
   font-size: 14px;
+  font-family: "Oswald", sans-serif;
 
-  border-left: 12px solid #ffc82e !important; 
+  border-left: 12px solid var(--accent) !important; 
 
   transition: all 0.2s ease;
 }
-
 
 a.hero-btn-box {
   gap: 6px; 
@@ -860,26 +963,27 @@ a.hero-btn-box span {
 
 /* HOVER */
 a.hero-btn-box:hover {
-  background: #ffc82e !important; 
-  color: #000 !important;
+  background: var(--accent) !important; 
+  color: var(--black) !important;
 }
 
-
-
+/* HERO TEXT */
 .hero-text h1 {
+  font-family: "Oswald", sans-serif;
   font-size: 64px;
   font-weight: 800;
   line-height: 1.05;
   margin: 0;
 
-  color: #FFD84D !important;  
+  color: var(--accent) !important;  
 }
 
 .hero-text p {
   margin-top: 12px;
   font-size: 18px;
+  font-family: "Poppins", sans-serif;
 
-  color: #FFD84D !important;
+  color: var(--accent) !important;
   font-weight: 700;   
 }
 
@@ -897,11 +1001,16 @@ a.hero-btn-box:hover {
   padding: 12px;
   min-width: 200px;
 
+  background: var(--white);
+  font-family: "Poppins", sans-serif;
+
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
+
 .dropdown-toggle::after {
   transform: rotate(90deg); 
 }
+
 .tab-content {
   display: none;
 }
@@ -910,20 +1019,21 @@ a.hero-btn-box:hover {
   display: block;
 }
 
+/* ABOUT CARD */
 .about-card {
-  background: rgba(217, 217, 217, 1);
-
+  background: var(--light-bg);
   border-radius: 30px;
   padding: 2rem;
   grid-column: 3/11;
-  background: rgb(206, 206, 206);;
+  font-family: "Poppins", sans-serif;
 }
 
-.about-card-title
-{
+/* ABOUT TITLE */
+.about-card-title {
   grid-column: 3/11;
   font-size: 40px;
   font-weight: 500;
   text-align: center;
+  font-family: "Oswald", sans-serif;
+  color: var(--primary);
 }
-
