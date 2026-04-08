@@ -189,10 +189,10 @@ exports.updateProfileImage = async (req, res) => {
       return res.status(400).send("Please choose an image.");
     }
 
-    const profileImagePath = `/images/profile-pictures/${req.file.filename}`;
+    const profilePicturePath = `/images/profile-pictures/${req.file.filename}`;
 
     await User.findByIdAndUpdate(req.user._id, {
-      profileImage: profileImagePath
+      profilePicture: profilePicturePath
     });
 
     res.redirect("/dashboard");

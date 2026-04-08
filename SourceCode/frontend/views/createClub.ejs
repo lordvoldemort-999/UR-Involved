@@ -21,7 +21,7 @@
     </div>
     <!-- TODO: Change image -->
     <img
-      src="/images/pexels-ivan-s-5676744.jpg"
+      src="/images/pexels-olly-3776845.jpg"
       alt="Bunch of students happily working together"
     />
   </div>
@@ -47,23 +47,16 @@
       placeholder="Write the description of your club's activities here. Make sure it matches the records we already have"
     ></textarea>
 
-    <label for="club-category" class="form-label">Category</label>
-    <input
-      name="category"
-      id="club-category"
-      list="category-options"
-      placeholder="Write the category(s) your club belongs to here."
-      class="form-control p-3 mb-4"
-    />
-    <datalist id="category-options">
-      <option value="Science"></option>
-      <option value="Humanities"></option>
-      <option value="Engineering"></option>
-      <option value="Sports"></option>
-      <option value="Recreational"></option>
-      <option value="Nursing"></option>
-      <option value="Business"></option>
-    </datalist>
+    <select name="category" id="club-category" class="form-select p-3 mb-4" aria-label="Club categories">
+      <option value="None" selected>Select the category of your club here</option>
+      <option value="Science">Science</option>
+      <option value="Humanities">Humanities</option>
+      <option value="Engineering">Engineering</option>
+      <option value="Sports">Sports</option>
+      <option value="Recreational">Recreational</option>
+      <option value="Nursing">Nursing</option>
+      <option value="Business">Business</option>
+    </select>
 
     <label for="logo" class="form-label">Logo</label>
     <input
@@ -81,6 +74,15 @@
       id="contact-email"
       class="form-control mb-4 p-3"
       placeholder="Write your club's contact email here"
+    />
+
+    <label for="website" class="form-label">Website</label>
+    <input
+      type="text"
+      name="website"
+      id="website"
+      class="form-control mb-4 p-3"
+      placeholder="Write your club's website here"
     />
 
     <!-- TODO: Discuss with team what else to ask for creation form -->
