@@ -22,7 +22,7 @@
       </div>
 
       <div class="header-nav-main">
-        <% if (currentUser) { %>
+        <% if (currentUser && currentUser.role === "student") { %>
               <a href="/create-club" class="btn btn-warning" role="button">Create club</a>
             <% } else { %>
               <a href="/login" class="btn btn-warning" role="button"> Login</a>
