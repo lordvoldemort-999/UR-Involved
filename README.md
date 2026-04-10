@@ -113,12 +113,14 @@ The MVP includes the following features:
 
 - <strong> Ensure that you have mongodb and nodejs installed in your computer before you begin! </strong>
 - Clone the repository:
+  
   ```
    git clone www.github.com/RobertCalinescu/UR-Involved
   ```
 - Navigate to the project folder: ` cd ur-involved`
 - Install dependencies: `npm i`
 - Seed the database:
+  
   ```
   cd SourceCode/database
   ```
@@ -126,6 +128,7 @@ The MVP includes the following features:
   node seedClub.js
   ```
 - Navigate to the backend:
+  
   ```
   cd ../backend
   ```
