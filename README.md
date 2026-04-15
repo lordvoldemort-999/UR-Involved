@@ -134,3 +134,19 @@ The MVP includes the following features:
   ```
 - Start the app: `node app.js`
 - Open `localhost:3000` in your browser and your're done.
+
+## Marketing
+
+Why did we make a poster?
+
+While brainstorming how to market this product, we asked ourselves: What is the most efficient way to advertise this service?
+
+Well, the immediate conclusion we came to was simmple: to ask ourselves "Where would we advertise a club?", and the answer was on a poster. While many people may gloss over posters, the people who will look
+on the boards are also the ones that will be most likely to use this service. 
+
+We reach them, rather than making them reach us. 
+
+Also note the poster's QR code is a placeholder and, as such, is crossed out. While the site is on localhost, having a poster that links to it would obviously not work. If we were to further this project, 
+the poster would be fixed with a proper QR code.
+
+We also have a video commercial for this project. It showcases why our potential users should care, highlighting what it has over the current available method of finding and joining clubs. The video can be found <strong><a href="https://youtu.be/RXEn1kok2v8">HERE</a><strong>
